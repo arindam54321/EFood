@@ -1,19 +1,39 @@
 <div class="container">
-    <!-- <div *ngIf="anyoneLoggedIn"> -->
-        <app-header></app-header>
-        <div class="container">
-            <form class="form-inline">
-                <span class="row text-align-center">
-                    <input class="form-control col col-md-6 col-sm-6" id="search-box" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <span class="col-md-1 col-sm-1"></span>
-                    <button class="btn btn-outline-success col-md-2 col-sm-2" type="submit">Search</button>
-                </span>
-            </form>
+    <app-header></app-header>
+    
+    <br>
+
+    <div class="container">
+        <form class="form-inline">
+            <span class="row text-align-center">
+                <input class="form-control col col-md-6 col-sm-6" id="search-box" type="search" placeholder="Search"
+                    aria-label="Search">
+                <span class="col-md-1 col-sm-1"></span>
+                <button class="btn btn-outline-success col-md-2 col-sm-2" type="submit">Search</button>
+            </span>
+        </form>
+    </div>
+    
+    <br>
+    
+    <div class="home-body">
+        <div *ngIf="true">
+            <div class="card">
+                <div class="card-header text-align-center">
+                    <h2>Choose Your Meal</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3" *ngFor="let category of categories">
+                            <div class="category-card">
+                                <div class="">
+                                    <img [src]="'../../../assets/images/categories/' + category.src" [alt]="category.name" class="category-img">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        Body
-    <!-- </div>
-    <div *ngIf="!anyoneLoggedIn">
-        <app-customer-no-data></app-customer-no-data>
-    </div> -->
+    </div>
 </div>

@@ -1,7 +1,7 @@
 export class LoginCheck {
     static loginCheck = () => {
         if (!this.isAnyoneLoggedIn()) {
-            window.location.href = 'init'
+            window.location.href = '#/new-user'
         }
     }
 
