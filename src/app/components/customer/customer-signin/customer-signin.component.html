@@ -27,7 +27,70 @@
                 <small class="text-danger" *ngIf="form.get('mobile')?.dirty && form.get('mobile')?.errors">Not a valid Mobile Number</small>
             </div>
             <br>
-            <button class="btn btn-success" (click)="signIn()" [disabled]="!form.valid">Submit</button>
+            <button class="btn btn-success" (click)="signIn()" [disabled]="!form.valid" data-bs-toggle="modal" data-bs-target="#otpModal">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="otpModal" #OtpModal tabindex="-1" aria-labelledby="otpModalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div *ngIf="!otpValidated">
+                <div class="modal-header">
+                    <h1 id="otpModalHeader">OTP Sent to Email</h1>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="otp">Enter OTP</label>
+                    <input type="number" name="otp" id="otp" class="form-control" [(ngModel)]="otp">
+                    <br>
+                    <div *ngIf="otpErrorMessage">
+                        <small class="text-danger">*{{otpErrorMessage}}</small>
+                        <br>
+                        <br>
+                    </div>
+                    <button class="btn btn-primary" (click)="validateOtp()">
+                        Validate
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-danger" [disabled]="otpButtonDisabled" (click)="signIn()">
+                        Resend OTP
+                        <span *ngIf="otpButtonDisabled">
+                            (<span *ngIf="cooldownMinutes > 0">{{cooldownMinutes}}m</span>
+                            <span *ngIf="cooldownMinutes > 0 && cooldownSeconds > 0">&nbsp;</span>
+                            <span *ngIf="cooldownSeconds > 0">{{cooldownSeconds}}s</span>)
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="otpValidated && userExists">
+                <div class="modal-header">
+                    <h1 id="otpModalHeader">Accout already Exists</h1>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Account already exists for this email id. You can login instead.
+                    </div>
+                    <br>
+                    <button class="btn btn-outline-success">Log In</button>
+                    &nbsp;
+                    <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+            </div>
+            <div *ngIf="otpValidated && !userExists">
+                <div class="modal-header alert alert-success">
+                    <h1 id="otpModalHeader">Accout Created</h1>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Your account has been created.
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" routerLink="/">Go Home</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

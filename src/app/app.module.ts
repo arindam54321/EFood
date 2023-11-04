@@ -8,6 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { InvalidRouteComponent } from './components/invalid-route/invalid-route.component';
 import { HeaderComponent } from './components/home/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 import { CustomerNoDataComponent } from './components/customer/customer-no-data/customer-no-data.component';
 import { CustomerLoginComponent } from './components/customer/customer-login/customer-login.component';
 import { CustomerSigninComponent } from './components/customer/customer-signin/customer-signin.component';
@@ -29,7 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,5 @@
+import { Constants } from "./Constants"
+
 export class LoginCheck {
     static loginCheck = () => {
         if (!this.isAnyoneLoggedIn()) {
@@ -6,6 +8,6 @@ export class LoginCheck {
     }
 
     static isAnyoneLoggedIn = (): boolean => {
-        return localStorage.getItem("loggedInCustomer") !== null
+        return localStorage.getItem(Constants.loggedInCustomerId) !== null
     }
 }
