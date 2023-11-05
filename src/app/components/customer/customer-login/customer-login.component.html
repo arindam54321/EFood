@@ -1,1 +1,53 @@
-<p>customer-login works!</p>
+<br>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>E-Food Login</h1>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="customerOtp">Enter Email</label>
+                <input type="email" name="customerOtp" id="customerOtp" class="form-control" [(ngModel)]="customerEmail">
+                <div *ngIf="!doesCustomerExists">
+                    <small class="text-danger">
+                        {{customerErrorMessage}}
+                    </small>
+                </div>
+                <div *ngIf="!userExists">
+                    <br>
+                    <button class="btn btn-success" [disabled]="!customerEmail || otpButtonDisabled" (click)="login()">
+                        Generate OTP
+                        <span *ngIf="otpButtonDisabled">
+                            (<span *ngIf="cooldownMinutes > 0">{{cooldownMinutes}}m</span>
+                            <span *ngIf="cooldownMinutes > 0 && cooldownSeconds > 0">&nbsp;</span>
+                            <span *ngIf="cooldownSeconds > 0">{{cooldownSeconds}}s</span>)
+                        </span>
+                    </button>
+                </div>
+                <div *ngIf="userExists">
+                    <br>
+                    <label for="otp">Enter OTP</label>
+                    <input type="number" name="otp" id="otp" class="form-control" [(ngModel)]="otp">
+                    <br>
+                    <div *ngIf="otpErrorMessage">
+                        <small class="text-danger">*{{otpErrorMessage}}</small>
+                        <br>
+                        <br>
+                    </div>
+                    <button class="btn btn-primary" (click)="validateOtp()">
+                        Validate
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-danger" [disabled]="otpButtonDisabled" (click)="login()">
+                        Resend OTP
+                        <span *ngIf="otpButtonDisabled">
+                            (<span *ngIf="cooldownMinutes > 0">{{cooldownMinutes}}m</span>
+                            <span *ngIf="cooldownMinutes > 0 && cooldownSeconds > 0">&nbsp;</span>
+                            <span *ngIf="cooldownSeconds > 0">{{cooldownSeconds}}s</span>)
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

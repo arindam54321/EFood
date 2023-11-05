@@ -16,4 +16,14 @@ export class CustomerServiceService {
     let url = `${this.urlPrefix}/add`
     return this.http.post(url, data).pipe(catchError(Backend.handleError))
   }
+
+  doesExist = (email: any): Observable<any> => {
+    let url = `${this.urlPrefix}/exists?email=${email}`
+    return this.http.get(url).pipe(catchError(Backend.handleError))
+  }
+
+  getCustomer = (email: any): Observable<any> => {
+    let url = `${this.urlPrefix}/get?email=${email}`
+    return this.http.get(url).pipe(catchError(Backend.handleError))
+  }
 }

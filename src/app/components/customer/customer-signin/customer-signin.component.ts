@@ -68,7 +68,7 @@ export class CustomerSigninComponent implements OnInit {
         this.customerService.signIn(this.form.value).subscribe(
           success => {
             this.otpValidated = true
-            localStorage.setItem(Constants.loggedInCustomerId, JSON.stringify(success.data))
+            localStorage.setItem(Constants.loggedInCustomer, JSON.stringify(success.data))
           },
           error => {
             this.otpValidated = true
@@ -89,16 +89,16 @@ export class CustomerSigninComponent implements OnInit {
   }
 
   getCooldownSeconds = (): number => {
-    return Math.ceil(Math.max(0, Number(localStorage.getItem('nextOtpCooldown')) - Date.now()) / 1000);
+    return Math.ceil(Math.max(0, Number(localStorage.getItem(Constants.nextOtpCooldown)) - Date.now()) / 1000);
   }
 
   setNextOtpTime = (): void => {
     let seconds = 60
-    localStorage.setItem('nextOtpCooldown', (Date.now() + seconds * 1000).toString())
+    localStorage.setItem(Constants.nextOtpCooldown, (Date.now() + seconds * 1000).toString())
   }
 
   getNextOtpTime = (): number => {
-    return Number(localStorage.getItem('nextOtpCooldown'))
+    return Number(localStorage.getItem(Constants.nextOtpCooldown))
   }
 
   otpCooldownOver = (): boolean => {

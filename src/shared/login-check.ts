@@ -8,6 +8,6 @@ export class LoginCheck {
     }
 
     static isAnyoneLoggedIn = (): boolean => {
-        return localStorage.getItem(Constants.loggedInCustomerId) !== null
+        return localStorage.getItem(Constants.loggedInCustomer) !== null
     }
 }

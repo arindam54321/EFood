@@ -1,3 +1,4 @@
 export class Constants {
-    static loggedInCustomerId: string = 'loggedInCustomer'
+    static loggedInCustomer: string = 'loggedInCustomer'
+    static nextOtpCooldown: string = 'nextOtpCooldown'
 }
