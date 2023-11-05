@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { CustomerServiceService } from 'src/app/services/customer-service.service';
@@ -25,13 +26,19 @@ export class CustomerLoginComponent implements OnInit {
   customerErrorMessage!: any
   otpSent = false
   customerData!: any
+  form!: FormGroup
 
   constructor(
+    private fb: FormBuilder,
     private customerService: CustomerServiceService, 
     private otpService: OtpServiceService,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      otp: ['', [Validators.required, Validators.min(100001), Validators.max(999999)]]
+    })
     this.subscription = interval(100).subscribe(() => {
       this.otpButtonDisabled = !this.otpCooldownOver()
       this.setCooldownTimer()
@@ -53,7 +60,7 @@ export class CustomerLoginComponent implements OnInit {
   }
 
   setNextOtpTime = (): void => {
-    let seconds = 10
+    let seconds = 60
     localStorage.setItem(Constants.nextOtpCooldown, (Date.now() + seconds * 1000).toString())
   }
 
@@ -70,13 +77,13 @@ export class CustomerLoginComponent implements OnInit {
     this.customerErrorMessage = null
     this.customerData = null
     this.userExists = false
-    this.customerService.getCustomer(this.customerEmail).subscribe(
+    this.customerService.getCustomer(this.form.controls['email'].value).subscribe(
       success => {
         this.userExists = true
         this.customerData = success.data
         if (this.otpCooldownOver()) {
           this.otpSent = false
-          this.otpService.sendOtp(this.customerEmail).subscribe(
+          this.otpService.sendOtp(this.form.controls['email'].value).subscribe(
             success => {
               this.otpSent = true
               this.setNextOtpTime()
@@ -94,7 +101,7 @@ export class CustomerLoginComponent implements OnInit {
   validateOtp = () => {
     this.otpErrorMessage = null
     this.otpValidated = false
-    this.otpService.validateOtp(this.customerEmail, this.otp).subscribe(
+    this.otpService.validateOtp(this.form.controls['email'].value, this.form.controls['otp'].value).subscribe(
       success => {
         localStorage.setItem(Constants.loggedInCustomer, JSON.stringify(this.customerData))
         this.router.navigate([''])
