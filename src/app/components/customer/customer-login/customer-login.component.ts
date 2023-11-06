@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { CustomerServiceService } from 'src/app/services/customer-service.service';
 import { OtpServiceService } from 'src/app/services/otp-service.service';
-import { Constants } from 'src/shared/Constants';
+import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 
 @Component({
   selector: 'app-customer-login',
@@ -56,16 +56,16 @@ export class CustomerLoginComponent implements OnInit {
   }
 
   getCooldownSeconds = (): number => {
-    return Math.ceil(Math.max(0, Number(localStorage.getItem(Constants.nextOtpCooldown)) - Date.now()) / 1000);
+    return Math.ceil(Math.max(0, Number(localStorage.getItem(LocalStorageKeys.nextOtpCooldown)) - Date.now()) / 1000);
   }
 
   setNextOtpTime = (): void => {
     let seconds = 60
-    localStorage.setItem(Constants.nextOtpCooldown, (Date.now() + seconds * 1000).toString())
+    localStorage.setItem(LocalStorageKeys.nextOtpCooldown, (Date.now() + seconds * 1000).toString())
   }
 
   getNextOtpTime = (): number => {
-    return Number(localStorage.getItem(Constants.nextOtpCooldown))
+    return Number(localStorage.getItem(LocalStorageKeys.nextOtpCooldown))
   }
 
   otpCooldownOver = (): boolean => {
@@ -103,7 +103,8 @@ export class CustomerLoginComponent implements OnInit {
     this.otpValidated = false
     this.otpService.validateOtp(this.form.controls['email'].value, this.form.controls['otp'].value).subscribe(
       success => {
-        localStorage.setItem(Constants.loggedInCustomer, JSON.stringify(this.customerData))
+        LocalStorageKeys.deleteCustomerDetails()
+        localStorage.setItem(LocalStorageKeys.loggedInCustomer, JSON.stringify(this.customerData))
         this.router.navigate([''])
       },
       error => {

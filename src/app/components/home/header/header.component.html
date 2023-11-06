@@ -12,7 +12,7 @@
             <a class="nav-link" routerLink="invalid-page">🤩Offers</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" routerLink="invalid-page">👤Arindam</a>
+            <a class="nav-link" (click)="logout()" routerLink="">👤{{loggedInUser.firstName}} <span class="text-danger">[logout]</span></a>
         </li>
     </ul>
 </nav>    

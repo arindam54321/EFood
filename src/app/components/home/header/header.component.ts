@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  loggedInUser!: any
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    
+    this.loggedInUser = JSON.parse(localStorage.getItem(LocalStorageKeys.loggedInCustomer) + '')
+  }
+
+  logout = () => {
+    LocalStorageKeys.deleteCustomerDetails()
+    this.router.navigate(['new-user'])
   }
 }

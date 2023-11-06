@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription, interval, timestamp } from 'rxjs';
 import { CustomerServiceService } from 'src/app/services/customer-service.service';
 import { OtpServiceService } from 'src/app/services/otp-service.service';
-import { Constants } from 'src/shared/Constants';
+import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 
 @Component({
   selector: 'app-customer-signin',
@@ -68,7 +68,8 @@ export class CustomerSigninComponent implements OnInit {
         this.customerService.signIn(this.form.value).subscribe(
           success => {
             this.otpValidated = true
-            localStorage.setItem(Constants.loggedInCustomer, JSON.stringify(success.data))
+            LocalStorageKeys.deleteCustomerDetails()
+            localStorage.setItem(LocalStorageKeys.loggedInCustomer, JSON.stringify(success.data))
           },
           error => {
             this.otpValidated = true
@@ -89,16 +90,16 @@ export class CustomerSigninComponent implements OnInit {
   }
 
   getCooldownSeconds = (): number => {
-    return Math.ceil(Math.max(0, Number(localStorage.getItem(Constants.nextOtpCooldown)) - Date.now()) / 1000);
+    return Math.ceil(Math.max(0, Number(localStorage.getItem(LocalStorageKeys.nextOtpCooldown)) - Date.now()) / 1000);
   }
 
   setNextOtpTime = (): void => {
     let seconds = 60
-    localStorage.setItem(Constants.nextOtpCooldown, (Date.now() + seconds * 1000).toString())
+    localStorage.setItem(LocalStorageKeys.nextOtpCooldown, (Date.now() + seconds * 1000).toString())
   }
 
   getNextOtpTime = (): number => {
-    return Number(localStorage.getItem(Constants.nextOtpCooldown))
+    return Number(localStorage.getItem(LocalStorageKeys.nextOtpCooldown))
   }
 
   otpCooldownOver = (): boolean => {

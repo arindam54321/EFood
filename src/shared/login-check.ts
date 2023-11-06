@@ -1,4 +1,4 @@
-import { Constants } from "./Constants"
+import { LocalStorageKeys } from "./localStorageKeys"
 
 export class LoginCheck {
     static loginCheck = () => {
@@ -8,6 +8,6 @@ export class LoginCheck {
     }
 
     static isAnyoneLoggedIn = (): boolean => {
-        return localStorage.getItem(Constants.loggedInCustomer) !== null
+        return localStorage.getItem(LocalStorageKeys.loggedInCustomer) !== null
     }
 }
