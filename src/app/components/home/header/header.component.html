@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light row">
+<!--     
     <a class="navbar-brand col-md-1 col-sm-1" routerLink="invalid-page">E-Food</a>
     <span class="col-md-2 col-sm-2"></span>
     <ul class="navbar-nav col-md-8 col-sm-8 text-align-center">
@@ -15,4 +16,23 @@
             <a class="nav-link" (click)="logout()" routerLink="">👤{{loggedInUser.firstName}} <span class="text-danger">[logout]</span></a>
         </li>
     </ul>
+-->
+    
+    <div class="row nav-bar-content">
+        <span class="col-md-1 col-sm-1"></span>
+        <span class="col-md-2 col-sm-2">
+            <a class="navbar-brand col-md-1 col-sm-1 navbar-heading" routerLink="invalid-page">E-Food</a>
+        </span>
+        <span class="col-md-3 col-sm-3"></span>
+        <span class="col-md-6 col-sm-6 row nav-bar-menu-row">
+            <span class="col-md-1 col-sm-1"></span>
+            <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items">🏡Home</span>
+            <span class="col-md-1 col-sm-1"></span>
+            <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items">📍Dinhata</span>
+            <span class="col-md-1 col-sm-1"></span>
+            <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items">🤩Offers</span>
+            <span class="col-md-1 col-sm-1"></span>
+            <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items" (click)="logout()">👤{{loggedInUser.firstName}}</span>
+        </span>
+    </div>
 </nav>    

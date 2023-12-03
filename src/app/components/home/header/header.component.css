@@ -1,0 +1,18 @@
+.nav-bar-menu-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bar-menu-items {
+    cursor: pointer;
+    color: #555555;
+}
+
+.navbar-heading {
+    font-size: 2rem;
+}
+
+.nav-bar-content {
+    display: flex;
+}

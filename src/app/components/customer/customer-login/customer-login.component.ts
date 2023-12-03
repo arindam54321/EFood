@@ -26,6 +26,7 @@ export class CustomerLoginComponent implements OnInit {
   customerErrorMessage!: any
   otpSent = false
   customerData!: any
+  jwt!: any
   form!: FormGroup
 
   constructor(
@@ -81,6 +82,7 @@ export class CustomerLoginComponent implements OnInit {
       success => {
         this.userExists = true
         this.customerData = success.data
+        this.jwt = success.headers[0]
         if (this.otpCooldownOver()) {
           this.otpSent = false
           this.otpService.sendOtp(this.form.controls['email'].value).subscribe(
@@ -105,6 +107,7 @@ export class CustomerLoginComponent implements OnInit {
       success => {
         LocalStorageKeys.deleteCustomerDetails()
         localStorage.setItem(LocalStorageKeys.loggedInCustomer, JSON.stringify(this.customerData))
+        localStorage.setItem(LocalStorageKeys.jwt, this.jwt)
         this.router.navigate([''])
       },
       error => {
