@@ -6,7 +6,7 @@ export class Backend {
   static localhost: string = `http://localhost:${Backend.localport}`
 
   static customport: number = 10000
-  static customhost: string = `http://192.168.29.253:${Backend.customport}`
+  static customhost: string = `http://192.168.1.6:${Backend.customport}`
 
   static cloudhost: string = ''
 

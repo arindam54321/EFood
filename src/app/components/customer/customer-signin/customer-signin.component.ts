@@ -70,6 +70,7 @@ export class CustomerSigninComponent implements OnInit {
             this.otpValidated = true
             LocalStorageKeys.deleteCustomerDetails()
             localStorage.setItem(LocalStorageKeys.loggedInCustomer, JSON.stringify(success.data))
+            localStorage.setItem(LocalStorageKeys.jwt, success.headers[0])
           },
           error => {
             this.otpValidated = true
