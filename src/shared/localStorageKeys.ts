@@ -2,11 +2,13 @@ export class LocalStorageKeys {
     static loggedInCustomer: string = 'loggedInCustomer'
     static jwt: string = 'jwt'
     static nextOtpCooldown: string = 'nextOtpCooldown'
+    static chosenLocation: string = 'chosenLocation'
 
     static allKeys: string[] = [
         LocalStorageKeys.loggedInCustomer,
         LocalStorageKeys.nextOtpCooldown,
-        LocalStorageKeys.jwt
+        LocalStorageKeys.jwt,
+        LocalStorageKeys.chosenLocation
     ]
 
     static customerDetailKeys: string[] = [

@@ -1,23 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light row">
-<!--     
-    <a class="navbar-brand col-md-1 col-sm-1" routerLink="invalid-page">E-Food</a>
-    <span class="col-md-2 col-sm-2"></span>
-    <ul class="navbar-nav col-md-8 col-sm-8 text-align-center">
-        <li class="nav-item active">
-            <a class="nav-link" routerLink="invalid-page">🏡Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="invalid-page">📍Dinhata</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="invalid-page">🤩Offers</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" (click)="logout()" routerLink="">👤{{loggedInUser.firstName}} <span class="text-danger">[logout]</span></a>
-        </li>
-    </ul>
--->
-    
+<nav class="navbar navbar-expand-lg navbar-light bg-light row">    
     <div class="row nav-bar-content">
         <span class="col-md-1 col-sm-1"></span>
         <span class="col-md-2 col-sm-2">
@@ -25,14 +6,14 @@
         </span>
         <span class="col-md-3 col-sm-3"></span>
         <span class="col-md-6 col-sm-6 row nav-bar-menu-row">
-            <span class="col-md-1 col-sm-1"></span>
-            <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items">🏡Home</span>
-            <span class="col-md-1 col-sm-1"></span>
-            <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items">📍Dinhata</span>
+            <select name="location" id="location" class="nav-item col-md-6 col-md-6 nav-bar-menu-items" (change)="selectLocation()" [(ngModel)]="chosenLocation">
+                <option [value]="null" [selected]="chosenLocation === null">📍Choose Location</option>
+                <option *ngFor="let location of locations" [value]="location.pin" [selected]="chosenLocation === location.pin">📍{{location.name}}</option>
+            </select>
             <span class="col-md-1 col-sm-1"></span>
             <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items">🤩Offers</span>
             <span class="col-md-1 col-sm-1"></span>
             <span routerLink="invalid-page" class="nav-item col-md-2 col-md-2 nav-bar-menu-items" (click)="logout()">👤{{loggedInUser.firstName}}</span>
         </span>
     </div>
-</nav>    
+</nav>

@@ -23,11 +23,18 @@
                     <h2>Choose Your Meal</h2>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-2 col-sm-3" *ngFor="let category of categories">
+                    <div class="row category-card-holder">
+                        <div class="col-md-2 col-sm-3" *ngFor="let category of categories.slice(0, 5)">
                             <div class="category-card">
                                 <div class="">
                                     <img [src]="'../../../assets/images/categories/' + category.src" [alt]="category.name" class="category-img">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-3" *ngIf="categories.length > 5">
+                            <div class="category-card">
+                                <div class="">
+                                    <span class="catergory-img">More...</span>
                                 </div>
                             </div>
                         </div>
