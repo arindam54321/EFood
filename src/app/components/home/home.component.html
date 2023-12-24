@@ -27,7 +27,7 @@
                         <div class="col-md-2 col-sm-3" *ngFor="let category of categories.slice(0, 5)">
                             <div class="category-card">
                                 <div class="">
-                                    <img [src]="'../../../assets/images/categories/' + category.src" [alt]="category.name" class="category-img">
+                                    <img [src]="categoryImageLocation + category.src" [alt]="category.name" class="category-img">
                                 </div>
                             </div>
                         </div>
@@ -42,5 +42,22 @@
                 </div>
             </div>
         </div>
+        <br>
+        <div *ngIf="restaurants.length >= 1">
+            <div class="card">
+                <div class="card-header text-align-center">
+                    <h2>Browse Restaurants</h2>
+                </div>
+                <div class="card-body restaurant-card-body">
+                    <div *ngFor="let restaurant of restaurants">
+                        <div class="alert alert-primary restaurants" [routerLink]="'restaurant/' + restaurant.id">
+                            {{restaurant.name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<br>
+<br>

@@ -14,6 +14,7 @@ import { CustomerLoginComponent } from './components/customer/customer-login/cus
 import { CustomerSigninComponent } from './components/customer/customer-signin/customer-signin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     HeaderComponent,
     CustomerNoDataComponent,
     CustomerLoginComponent,
-    CustomerSigninComponent
+    CustomerSigninComponent,
+    RestaurantLandingPageComponent
   ],
   imports: [
     BrowserModule,

@@ -6,12 +6,14 @@ import { InvalidRouteComponent } from './components/invalid-route/invalid-route.
 import { CustomerNoDataComponent } from './components/customer/customer-no-data/customer-no-data.component';
 import { CustomerLoginComponent } from './components/customer/customer-login/customer-login.component';
 import { CustomerSigninComponent } from './components/customer/customer-signin/customer-signin.component';
+import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'new-user', component: CustomerNoDataComponent },
   { path: 'login', component: CustomerLoginComponent },
   { path: 'signin', component: CustomerSigninComponent },
+  { path: 'restaurant/:id', component: RestaurantLandingPageComponent },
   { path: '**', component: InvalidRouteComponent }
 ]
 

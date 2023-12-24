@@ -1,0 +1,31 @@
+<br>
+<div *ngIf="restaurantExists">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>{{restaurantData.name}}</h1>
+            </div>
+            <div class="card-body">
+                <div *ngFor="let food of foods">
+                    <div class="container">
+                        <div class="row alert alert-secondary">
+                            <span class="col-md-2 col-sm-2">
+                                <img class="food-image" [src]="categoryImageLocation + food.type + '.webp'" [alt]="food.type">
+                            </span>
+                            <span class="col-md-1 col-sm-1"></span>
+                            <span class="col-md-8 col-sm-8">
+                                <strong>Title: </strong> {{food.title}} <br>
+                                <strong>Description: </strong> {{food.description}} <br>
+                                <strong>Price: </strong> ₹{{food.price}} <br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div *ngIf="!restaurantExists">
+    The page you looking for doesn't exists!
+</div>

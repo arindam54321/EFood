@@ -16,3 +16,9 @@
 .nav-bar-content {
     display: flex;
 }
+
+.location-select, .location-select:focus {
+    border: none;
+    background-color: #cccccc;
+    border-radius: 10px;
+}

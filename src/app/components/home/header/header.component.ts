@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location.service';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
+import { HomeComponent } from '../home.component';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ export class HeaderComponent implements OnInit {
   loggedInUser!: any
   chosenLocation: any = null
   locations: any[] = []
-  constructor(private router: Router, private locationService: LocationService) { }
+  constructor(private router: Router, private locationService: LocationService, private home: HomeComponent) { }
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(localStorage.getItem(LocalStorageKeys.loggedInCustomer) + '')
@@ -26,7 +27,9 @@ export class HeaderComponent implements OnInit {
   }
 
   initChecks = () => {
-    this.chosenLocation = localStorage.getItem(LocalStorageKeys.chosenLocation)
+    this.chosenLocation = localStorage.getItem(LocalStorageKeys.chosenLocation) !== null
+                        ? JSON.parse(localStorage.getItem(LocalStorageKeys.chosenLocation) + '').pin 
+                        : null
     this.locationService.getLocations().subscribe(
       success => {
         this.locations = success.data
@@ -35,10 +38,12 @@ export class HeaderComponent implements OnInit {
   }
 
   selectLocation = () => {
-    if (this.chosenLocation === null) {
+    if (this.chosenLocation == null || this.chosenLocation == 'null') {
       localStorage.removeItem(LocalStorageKeys.chosenLocation)
     } else {
-      localStorage.setItem(LocalStorageKeys.chosenLocation, this.chosenLocation + '')
+      let chosenLocationObject = this.locations.filter(i => i.pin === this.chosenLocation)[0]
+      localStorage.setItem(LocalStorageKeys.chosenLocation, JSON.stringify(chosenLocationObject))
     }
+    this.home.loadData()
   }
 }
