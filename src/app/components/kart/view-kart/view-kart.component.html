@@ -1,0 +1,52 @@
+<br>
+<div class="container">
+    <div *ngIf="isCartEmpty;else cart_having_items">
+        <div class="alert alert-danger">
+            <h3>Cart is Empty</h3>
+            <button class="btn btn-secondary" (click)="goback()">Back</button>
+            &nbsp;
+            <button class="btn btn-primary" (click)="goHome()">Go Home</button>
+        </div>
+    </div>
+    <ng-template #cart_having_items>
+        <div>
+            <button class="btn btn-secondary" (click)="goback()">Back</button>
+            &nbsp;
+            <button class="btn btn-primary" (click)="goHome()">Go Home</button>
+            &nbsp;
+            <button class="btn btn-danger" (click)="emptyCart()">Empty Cart</button>
+            <hr>
+            <div class="card">
+                <div class="card-header">
+                    <span><h2>{{restaurantFromCart.name}}</h2></span>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="">
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of cartItems">
+                                <td>{{item.item.title}}</td>
+                                <td>₹{{item.item.price}}</td>
+                                <td>{{item.count}}</td>
+                                <td>₹{{item.item.price * item.count}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <strong>Total: </strong> ₹{{totalBalance}}
+                    &nbsp;
+                    <button class="btn btn-primary" (click)="goToRestaurant()">Edit Cart</button>
+                    &nbsp;
+                    <button class="btn btn-success">Pay & Order</button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

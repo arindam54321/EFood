@@ -15,6 +15,7 @@ import { CustomerSigninComponent } from './components/customer/customer-signin/c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
+import { ViewKartComponent } from './components/kart/view-kart/view-kart.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RestaurantLandingPageComponent } from './components/restaurants/restaur
     CustomerNoDataComponent,
     CustomerLoginComponent,
     CustomerSigninComponent,
-    RestaurantLandingPageComponent
+    RestaurantLandingPageComponent,
+    ViewKartComponent
   ],
   imports: [
     BrowserModule,

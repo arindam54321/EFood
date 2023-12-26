@@ -16,6 +16,11 @@ export class FoodService {
     return this.http.get(url).pipe(catchError(Backend.handleError))
   }
 
+  getById = (id: String): Observable<any> => {
+    let url = `${this.urlPrefix}/findbyid?id=${id}`
+    return this.http.get(url).pipe(catchError(Backend.handleError))
+  }
+
   getByRestaurant = (restaurant: String): Observable<any> => {
     let url = `${this.urlPrefix}/findbyrestaurant?restaurant=${restaurant}`
     return this.http.get(url).pipe(catchError(Backend.handleError))

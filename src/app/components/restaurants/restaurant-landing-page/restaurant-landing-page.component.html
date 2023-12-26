@@ -1,12 +1,53 @@
 <br>
 <div *ngIf="restaurantExists">
     <div class="container">
+        <div *ngIf="!restaurantSameAsCart; else restaurant_same_as_cart">
+            <div class="alert alert-danger">
+                <h2>Your Cart has saved item(s) from another Restaurant</h2>
+                <h6>You have to delete them before adding something from this Restaurant</h6>
+                <button class="btn btn-secondary" (click)="goback()">Back</button>
+                &nbsp;
+                <button class="btn btn-danger" (click)="deleteCart()">Delete Cart</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="viewCart()">View Cart</button>
+            </div>
+        </div>
+        <ng-template #restaurant_same_as_cart>
+            <button class="btn btn-secondary" (click)="goback()">Back</button>
+            &nbsp;
+            <button class="btn btn-primary" (click)="viewCart()">Go To Cart</button>
+            <hr>
+        </ng-template>
         <div class="card">
             <div class="card-header">
-                <h1>{{restaurantData.name}}</h1>
+                <div class="row">
+                    <span class="h1 col-md-5 col-5">{{restaurantData.name}}</span>
+                    <select name="location" id="location" class="col-md-3 col-4 food-sort-select" (change)="sortFoods(foodSortBy)" [(ngModel)]="foodSortBy">
+                        <option [value]="'NONE'">Sort By</option>
+                        <option [value]="'PASC'">Price: Low to High</option>
+                        <option [value]="'PDES'">Price: High to Low</option>
+                        <option [value]="'TASC'">Type: Ascending</option>
+                        <option [value]="'TDES'">Type: Descending</option>
+                    </select>
+                    <span class="col-md-1 col-1"></span>
+                    <button class="col-md-3 col-2 btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#filterModal">
+                        Filters
+                        <span class="badge bg-danger" *ngIf="numberOfFiltersApplied">{{numberOfFiltersApplied}}</span>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
-                <div *ngFor="let food of foods">
+                <div *ngIf="foods.length === 0">
+                    <div class="alert alert-danger">
+                        <h3>No food available currently</h3>
+                    </div>
+                </div>
+                <div *ngIf="foods.length > 0 && foodsFiltered.length === 0">
+                    <div class="alert alert-danger">
+                        <h3>No food available for the selected type</h3>
+                    </div>
+                </div>
+                <div *ngFor="let food of foodsFiltered">
                     <div class="container">
                         <div class="row alert alert-secondary">
                             <span class="col-md-2 col-sm-2">
@@ -14,9 +55,18 @@
                             </span>
                             <span class="col-md-1 col-sm-1"></span>
                             <span class="col-md-8 col-sm-8">
-                                <strong>Title: </strong> {{food.title}} <br>
-                                <strong>Description: </strong> {{food.description}} <br>
-                                <strong>Price: </strong> ₹{{food.price}} <br>
+                                <strong>Title: </strong> <span class="food-details">{{food.title}}</span> <br>
+                                <strong>Description: </strong> <span class="food-details">{{food.description}}</span> <br>
+                                <strong>Price: </strong> <span class="food-details">₹{{food.price}}</span> <br>
+                                <!-- <strong>Rating: </strong> <span class="food-details">4.3★ (19 Ratings)</span> <br> -->
+                                <br>
+                                <button class="btn btn-sm btn-outline-danger" [disabled]="cartItems[food.id]===0" (click)="reduceFromCart(food.id)">-</button>
+                                &nbsp;
+                                <span>{{cartItems[food.id]}}</span>
+                                &nbsp;
+                                <button class="btn btn-sm btn-outline-success" [disabled]="!restaurantSameAsCart" (click)="increaseFromCart(food.id)">+</button>
+                                &nbsp;
+                                <button class="btn btn-sm btn-outline-danger" [disabled]="cartItems[food.id]===0" (click)="deleteFromCart(food.id)">🗑️</button>
                             </span>
                         </div>
                     </div>
@@ -24,8 +74,42 @@
             </div>
         </div>
     </div>
-    
 </div>
 <div *ngIf="!restaurantExists">
-    The page you looking for doesn't exists!
+    <app-invalid-route></app-invalid-route>
+</div>
+
+<div class="modal fade" id="filterModal" #FilterModal tabindex="-1" aria-labelledby="filterModalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <h3 id="filterModalHeader">Filters</h3>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div><strong>Food Type:</strong></div>
+                    <div class="row">
+                        <span *ngFor="let type of foodCategories; index as idx" class="col-md-6 col-sm-6 col-6">
+                            <input class="form-check-input" type="checkbox" [value]="type.type" [id]="'type-filter-' + idx"
+                                [disabled]="foodTypeFilterDisabled[idx]"
+                                [(ngModel)]="foodTypeFilterSelected[idx]">
+                            &nbsp;
+                            <label class="form-check-label" [for]="'type-filter-' + idx">
+                                {{type.name}}
+                            </label>
+                        </span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="modal-footer">
+                    <div class="row container">
+                        <button class="btn btn-danger col-md-4 col-sm-4 col-5" (click)="clearfilter()">Clear Filters</button>
+                        <span class="col-md-1 col-sm-1 col-2"></span>
+                        <button class="btn btn-success col-md-4 col-sm-4 col-5" (click)="applyfilter()" data-bs-dismiss="modal" aria-label="Close">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

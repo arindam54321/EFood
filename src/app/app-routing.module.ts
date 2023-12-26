@@ -7,6 +7,7 @@ import { CustomerNoDataComponent } from './components/customer/customer-no-data/
 import { CustomerLoginComponent } from './components/customer/customer-login/customer-login.component';
 import { CustomerSigninComponent } from './components/customer/customer-signin/customer-signin.component';
 import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
+import { ViewKartComponent } from './components/kart/view-kart/view-kart.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login', component: CustomerLoginComponent },
   { path: 'signin', component: CustomerSigninComponent },
   { path: 'restaurant/:id', component: RestaurantLandingPageComponent },
+  { path: 'cart', component: ViewKartComponent },
   { path: '**', component: InvalidRouteComponent }
 ]
 
