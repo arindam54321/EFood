@@ -1,0 +1,112 @@
+<br>
+<div class="container">
+    <div *ngIf="!isLocationChosen; else location_was_chosen">
+        <div class="alert alert-danger">
+            <h1>You have to choose a Location before viewing this page</h1>
+        </div>
+    </div>
+    <ng-template #location_was_chosen>
+        <div *ngIf="!isFoodTypeValid; else food_type_is_valid">
+            <div class="alert alert-danger">
+                <h1>The Food type you selected is no valid</h1>
+            </div>
+        </div>
+        <ng-template #food_type_is_valid>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <span class="h1 col-md-5 col-5">{{foodType}}</span>
+                        <select name="location" id="location" class="col-md-3 col-4 food-sort-select" (change)="sortFoods(foodSortBy)"
+                            [(ngModel)]="foodSortBy">
+                            <option [value]="'NONE'" disabled selected>Sort By</option>
+                            <option [value]="'NONE'">None</option>
+                            <option [value]="'PASC'">Price: Low to High</option>
+                            <option [value]="'PDES'">Price: High to Low</option>
+                            <option [value]="'RASC'">Restaurants: Ascending</option>
+                            <option [value]="'RDES'">Restaurants: Descending</option>
+                        </select>
+                        <span class="col-md-1 col-1"></span>
+                        <button class="col-md-3 col-2 btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#filterModal">
+                            Filters
+                            <span class="badge bg-danger" *ngIf="numberOfFiltersApplied">{{numberOfFiltersApplied}}</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="foods.length === 0">
+                        <div class="alert alert-danger">
+                            <h3>No food available currently</h3>
+                        </div>
+                    </div>
+                    <div *ngIf="foods.length > 0 && foodsFiltered.length === 0">
+                        <div class="alert alert-danger">
+                            <h3>No food available for the selected type</h3>
+                        </div>
+                    </div>
+                    <div *ngFor="let food of foodsFiltered" class="alert alert-secondary">
+                        <strong>Title: </strong> <span class="food-details">{{food.title}}</span>
+                        <br>
+                        <strong>Description: </strong> <span class="food-details">{{food.description}}</span>
+                        <br>
+                        <strong>Price: </strong> <span class="food-details">₹{{food.price}}</span>
+                        <br>
+                        <strong>Restaurant: </strong> 
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-success" (click)="goToRestaurant(food.restaurant)">{{food.restaurantObject.name}}</button>
+                            <button type="button" class="btn btn-outline-success" (click)="goToCart()"
+                            *ngIf="food.restaurant === cartForRestaurant.id">🛒</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ng-template>
+</div>
+
+<div class="modal fade" id="filterModal" #FilterModal tabindex="-1" aria-labelledby="filterModalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <h3 id="filterModalHeader">Filters</h3>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div><strong>Price Range:</strong></div>
+                    <div class="row">
+                        <span *ngFor="let range of foodPriceRange; index as idx" class="col-md-6 col-sm-6 col-6">
+                            <span>
+                                <input class="form-check-input" type="radio" [value]="idx"
+                                    [(ngModel)]="foodPriceRangeSelected" name="foodPriceRange"
+                                    [id]="'food-price-range-' + idx">
+                                &nbsp;
+                                <label class="form-check-label" [for]="'food-price-range-' + idx">
+                                    <span *ngIf="idx !== 0; else no_price_range_selected">
+                                        <span *ngIf="range.from >= 1; else price_range_with_no_lower_bound">
+                                            ₹{{range.from}} - ₹{{range.to}}
+                                        </span>
+                                        <ng-template #price_range_with_no_lower_bound>
+                                            less than ₹{{range.to}}
+                                        </ng-template>
+                                    </span>
+                                    <ng-template #no_price_range_selected>
+                                        Any
+                                    </ng-template>
+                                </label>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row container">
+                        <button class="btn btn-danger col-md-4 col-sm-4 col-5" (click)="clearfilter()">Clear
+                            Filters</button>
+                        <span class="col-md-1 col-sm-1 col-2"></span>
+                        <button class="btn btn-success col-md-4 col-sm-4 col-5" (click)="applyfilter()"
+                            data-bs-dismiss="modal" aria-label="Close">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

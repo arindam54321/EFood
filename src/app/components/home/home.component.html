@@ -25,9 +25,9 @@
                 <div class="card-body">
                     <div class="row category-card-holder">
                         <div class="col-md-2 col-sm-3 col-3" *ngFor="let category of categories.slice(0, 5)">
-                            <div class="category-card">
+                            <div class="category-card" (click)="searchByFood(category.type)">
                                 <div class="">
-                                    <img [src]="categoryImageLocation + category.src" [alt]="category.name" class="category-img">
+                                    <img [src]="categoryImageLocation + category.src1" [alt]="category.name" class="category-img">
                                 </div>
                             </div>
                         </div>

@@ -22,15 +22,18 @@ export class RestaurantLandingPageComponent implements OnInit {
   
   categoryImageLocation!: string
   foodCategories: any[] = []
+  foodPriceRange: any[] = []
 
   foods: any[] = []
   foodsSorted: any[] = []
   foodSortBy: string = 'NONE'
 
   foodsFiltered: any[] = []
-  foodTypeFilterSelected: boolean[] = []
-  foodTypeFilterApplied: boolean[] = []
-  foodTypeFilterDisabled: boolean[] = []
+  foodTypeFiltersSelected: boolean[] = []
+  foodTypeFiltersApplied: boolean[] = []
+  foodTypeFiltersDisabled: boolean[] = []
+  foodPriceRangeSelected: number = 0
+  foodPriceRangeApplied: number = 0
   numberOfFiltersApplied: number = 0
   
   cartItems: any = {}
@@ -54,10 +57,11 @@ export class RestaurantLandingPageComponent implements OnInit {
     this.categoryImageLocation = '../../../' + Constants.foodCategoryImageLocation
     this.foodCategories = Constants.foodCategories
     this.foodCategories.forEach(i => { 
-      this.foodTypeFilterSelected.push(false)
-      this.foodTypeFilterDisabled.push(true)
-      this.foodTypeFilterApplied.push(false)
+      this.foodTypeFiltersSelected.push(false)
+      this.foodTypeFiltersDisabled.push(true)
+      this.foodTypeFiltersApplied.push(false)
     })
+    this.foodPriceRange = Constants.foodPriceRange
   }
 
   loadRestaurant = () => {
@@ -81,7 +85,7 @@ export class RestaurantLandingPageComponent implements OnInit {
 
         for (let food of this.foods) {
           let idx = this.foodCategories.findIndex(i => i.type === food.type)
-          this.foodTypeFilterDisabled[idx] = false
+          this.foodTypeFiltersDisabled[idx] = false
         }
 
         this.sortFoods('NONE')
@@ -105,31 +109,49 @@ export class RestaurantLandingPageComponent implements OnInit {
       this.foodsSorted.sort((a, b) => a.type < b.type ? -1 : 1)
     } else if (sortBy === 'TDES') {
       this.foodsSorted.sort((a, b) => a.type > b.type ? -1 : 1)
+    } else if (sortBy === 'CASC') {
+      this.foodsSorted.sort((a, b) => this.cartItems[a.id] < this.cartItems[b.id] ? -1 : 1)
+    } else if (sortBy === 'CDES') {
+      this.foodsSorted.sort((a, b) => this.cartItems[a.id] > this.cartItems[b.id] ? -1 : 1)
     }
 
     this.updateFoodListAfterAddingFilters()
   }
 
   clearfilter = () => {
-    this.foodTypeFilterSelected.fill(false)
+    this.foodTypeFiltersSelected.fill(false)
+    this.foodPriceRangeSelected = 0
   }
 
   applyfilter = () => {
-    this.foodTypeFilterApplied = [...this.foodTypeFilterSelected]
+    this.foodTypeFiltersApplied = [...this.foodTypeFiltersSelected]
+    this.foodPriceRangeApplied = this.foodPriceRangeSelected
     this.updateFoodListAfterAddingFilters()
   }
 
   updateFoodListAfterAddingFilters = () => {
     this.foodsFiltered = [...this.foodsSorted]
     this.numberOfFiltersApplied = 0
-    this.foodTypeFilterApplied.forEach(i => {this.numberOfFiltersApplied += i ? 1 : 0})
+    this.foodTypeFiltersApplied.forEach(i => {this.numberOfFiltersApplied += i ? 1 : 0})
+    this.numberOfFiltersApplied += this.foodPriceRangeApplied === 0 ? 0 : 1
 
     // FILTER BY TYPE
-    if (this.foodTypeFilterApplied.includes(true)) {
+    if (this.foodTypeFiltersApplied.includes(true)) {
       for (let i = this.foodsFiltered.length - 1; i >= 0; i--) {
         let type: string = this.foodsFiltered[i].type
         let idx = this.foodCategories.findIndex(i => i.type === type)
-        if (this.foodTypeFilterApplied[idx] === false) {
+        if (this.foodTypeFiltersApplied[idx] === false) {
+          this.foodsFiltered.splice(i, 1);
+        }
+      }
+    }
+
+    // FILTER BY PRICE RANGE
+    if (this.foodPriceRangeApplied !== 0) {
+      for (let i = this.foodsFiltered.length - 1; i >= 0; i--) {
+        let food = this.foodsFiltered[i]
+        if (food.price < this.foodPriceRange[this.foodPriceRangeApplied].from 
+          || food.price >= this.foodPriceRange[this.foodPriceRangeApplied].to) {
           this.foodsFiltered.splice(i, 1);
         }
       }
@@ -192,5 +214,9 @@ export class RestaurantLandingPageComponent implements OnInit {
 
   goback = () => {
     this.location.back()
+  }
+
+  gohome = () => {
+    this.router.navigate([''])
   }
 }

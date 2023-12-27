@@ -25,4 +25,9 @@ export class FoodService {
     let url = `${this.urlPrefix}/findbyrestaurant?restaurant=${restaurant}`
     return this.http.get(url).pipe(catchError(Backend.handleError))
   }
+
+  getByTypeAndLocation = (type: string, location: string): Observable<any> => {
+    let url = `${this.urlPrefix}/findbytypeandlocation?type=${type}&location=${location}`
+    return this.http.get(url).pipe(catchError(Backend.handleError))
+  }
 }

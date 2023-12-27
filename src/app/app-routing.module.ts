@@ -8,6 +8,7 @@ import { CustomerLoginComponent } from './components/customer/customer-login/cus
 import { CustomerSigninComponent } from './components/customer/customer-signin/customer-signin.component';
 import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
 import { ViewKartComponent } from './components/kart/view-kart/view-kart.component';
+import { FoodPageComponent } from './components/foods/food-page/food-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'signin', component: CustomerSigninComponent },
   { path: 'restaurant/:id', component: RestaurantLandingPageComponent },
   { path: 'cart', component: ViewKartComponent },
+  { path: 'food/:type', component: FoodPageComponent },
   { path: '**', component: InvalidRouteComponent }
 ]
 
