@@ -80,6 +80,7 @@ export class FoodPageComponent implements OnInit {
           this.restaurants = restaurantsuccess.data
           this.foodService.getByTypeAndLocation(this.foodType, this.chosenLocation.pin).subscribe(
             foodsuccess => {
+              this.foods = []
               for (let item of foodsuccess.data) {
                 let temp = item
                 temp.restaurantObject = this.restaurants.find(i => i.id === item.restaurant)

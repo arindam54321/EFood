@@ -49,8 +49,8 @@ export class RestaurantLandingPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(
       params => {
-        this.initialChecks()
         this.initializeVariables()
+        this.initialChecks()
         this.restaurantId = params['id']
         this.loadRestaurant()
         this.loadFoods()
@@ -62,7 +62,7 @@ export class RestaurantLandingPageComponent implements OnInit {
     LoginCheck.loginCheck()
     this.categoryImageLocation = '../../../' + Constants.foodCategoryImageLocation
     this.foodCategories = Constants.foodCategories
-    this.foodCategories.forEach(i => { 
+    this.foodCategories.forEach(i => {
       this.foodTypeFiltersSelected.push(false)
       this.foodTypeFiltersDisabled.push(true)
       this.foodTypeFiltersApplied.push(false)
