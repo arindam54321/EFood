@@ -1,4 +1,4 @@
-<br>
+<app-header></app-header>
 <div *ngIf="restaurantExists">
     <div class="container">
         <div *ngIf="!restaurantSameAsCart; else restaurant_same_as_cart">
@@ -15,12 +15,12 @@
             </div>
         </div>
         <ng-template #restaurant_same_as_cart>
-            <button class="btn btn-secondary" (click)="goback()">Back</button>
+            <!-- <button class="btn btn-secondary" (click)="goback()">Back</button>
             &nbsp;
             <button class="btn btn-secondary" (click)="gohome()">Home</button>
             &nbsp;
             <button class="btn btn-primary" (click)="viewCart()">Go To Cart</button>
-            <hr>
+            <hr> -->
         </ng-template>
         <div class="card">
             <div class="card-header">

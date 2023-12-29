@@ -17,6 +17,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
 import { ViewKartComponent } from './components/kart/view-kart/view-kart.component';
 import { FoodPageComponent } from './components/foods/food-page/food-page.component';
+import { SearchPageComponent } from './components/search/search-page/search-page.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FoodPageComponent } from './components/foods/food-page/food-page.compon
     CustomerSigninComponent,
     RestaurantLandingPageComponent,
     ViewKartComponent,
-    FoodPageComponent
+    FoodPageComponent,
+    SearchPageComponent
   ],
   imports: [
     BrowserModule,

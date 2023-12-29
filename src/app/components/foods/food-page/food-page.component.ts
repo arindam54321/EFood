@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FoodService } from 'src/app/services/food.service';
 import { RestaurantService } from 'src/app/services/restaurant.service';
+import { LocationUpdateService } from 'src/app/shared/location-update.service';
 import { Constants } from 'src/shared/contants';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 import { LoginCheck } from 'src/shared/login-check';
@@ -38,12 +39,26 @@ export class FoodPageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute, 
     private foodService: FoodService,
-    private restaurantService: RestaurantService
+    private restaurantService: RestaurantService,
+    private locationUpdateService: LocationUpdateService
   ) { }
 
   ngOnInit(): void {
-    this.initialChecks()
-    this.loadFoodDetails()
+    this.route.params.subscribe(
+      params => {
+        this.foodType = params['type']
+        this.initializeVariables()
+        this.initialChecks()
+        this.loadFoodDetails()
+      }
+    )
+    this.locationUpdateService.selectedLocation$.subscribe(
+      location => {
+        this.initializeVariables()
+        this.initialChecks()
+        this.loadFoodDetails()
+      }
+    )
   }
 
   initialChecks = () => {
@@ -58,7 +73,6 @@ export class FoodPageComponent implements OnInit {
   }
 
   loadFoodDetails = () => {
-    this.foodType = this.route.snapshot.paramMap.get('type')
     this.isFoodTypeValid = this.foodCategories.some(i => i.type === this.foodType)
     if (this.isLocationChosen && this.isFoodTypeValid) {
       this.restaurantService.getByLocation(this.chosenLocation.pin).subscribe(
@@ -122,10 +136,14 @@ export class FoodPageComponent implements OnInit {
         let food = this.foodsFiltered[i]
         if (food.price < this.foodPriceRange[this.foodPriceRangeApplied].from
           || food.price >= this.foodPriceRange[this.foodPriceRangeApplied].to) {
-          this.foodsFiltered.splice(i, 1);
+          this.foodsFiltered.splice(i, 1)
         }
       }
     }
+  }
+
+  changeFoodType = (foodType: string) => {
+    this.router.navigate(['food/' + foodType]);
   }
 
   goToRestaurant = (restaurant: string) => {
@@ -134,5 +152,22 @@ export class FoodPageComponent implements OnInit {
 
   goToCart = () => {
     this.router.navigate(['cart'])
+  }
+
+  initializeVariables = () => {
+    this.isFoodTypeValid = false
+    this.foodCategories = []
+    this.foods = []
+    this.foodsSorted = []
+    this.foodsFiltered = []
+    this.isLocationChosen = false
+    this.chosenLocation = {}
+    this.restaurants = []
+    this.cartForRestaurant = {}
+    this.foodSortBy = 'NONE'
+    this.foodPriceRange = []
+    this.foodPriceRangeSelected = 0
+    this.foodPriceRangeApplied = 0
+    this.numberOfFiltersApplied = 0
   }
 }

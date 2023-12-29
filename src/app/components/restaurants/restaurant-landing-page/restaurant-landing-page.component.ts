@@ -47,9 +47,15 @@ export class RestaurantLandingPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initialChecks()
-    this.loadRestaurant()
-    this.loadFoods()
+    this.route.params.subscribe(
+      params => {
+        this.initialChecks()
+        this.initializeVariables()
+        this.restaurantId = params['id']
+        this.loadRestaurant()
+        this.loadFoods()
+      }
+    )
   }
 
   initialChecks = () => {
@@ -65,7 +71,6 @@ export class RestaurantLandingPageComponent implements OnInit {
   }
 
   loadRestaurant = () => {
-    this.restaurantId = this.route.snapshot.paramMap.get('id')
     this.isRestaurantSameAsCart()
     this.restaurantService.getById(this.restaurantId).subscribe(
       success => {
@@ -141,7 +146,7 @@ export class RestaurantLandingPageComponent implements OnInit {
         let type: string = this.foodsFiltered[i].type
         let idx = this.foodCategories.findIndex(i => i.type === type)
         if (this.foodTypeFiltersApplied[idx] === false) {
-          this.foodsFiltered.splice(i, 1);
+          this.foodsFiltered.splice(i, 1)
         }
       }
     }
@@ -152,7 +157,7 @@ export class RestaurantLandingPageComponent implements OnInit {
         let food = this.foodsFiltered[i]
         if (food.price < this.foodPriceRange[this.foodPriceRangeApplied].from 
           || food.price >= this.foodPriceRange[this.foodPriceRangeApplied].to) {
-          this.foodsFiltered.splice(i, 1);
+          this.foodsFiltered.splice(i, 1)
         }
       }
     }
@@ -218,5 +223,11 @@ export class RestaurantLandingPageComponent implements OnInit {
 
   gohome = () => {
     this.router.navigate([''])
+  }
+
+  initializeVariables = () => {
+    this.foodTypeFiltersSelected = []
+    this.foodTypeFiltersApplied = []
+    this.foodTypeFiltersDisabled = []
   }
 }

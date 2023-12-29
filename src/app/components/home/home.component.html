@@ -1,68 +1,67 @@
+<app-header></app-header>
 <div class="container">
-    <app-header></app-header>
-    
-    <br>
-
     <div class="container">
         <form class="form-inline">
             <span class="row text-align-center">
-                <input class="form-control col col-md-6 col-sm-6 col-6" id="search-box" type="search" placeholder="Search"
-                    aria-label="Search">
+                <input class="form-control col col-md-6 col-sm-6 col-6" id="search-box" type="search" placeholder="Biryani, Momos..."
+                    aria-label="Search" [(ngModel)]="searchKey" [ngModelOptions]="{standalone: true}">
                 <span class="col-md-1 col-sm-1 col-1"></span>
-                <button class="btn btn-outline-success col-md-2 col-sm-2 col-2" type="submit">Search</button>
+                <button class="btn btn-success col-md-2 col-sm-2 col-2" 
+                    (click)="search()" [disabled]="!searchKey">
+                    Search
+                </button>
             </span>
         </form>
     </div>
-    
     <br>
-    
     <div class="home-body">
-        <div *ngIf="true">
+        <div *ngIf="true" class="col-12 home-body-parts">
             <div class="card">
                 <div class="card-header text-align-center">
                     <h2>Choose Your Meal</h2>
                 </div>
                 <div class="card-body">
                     <div class="row category-card-holder">
-                        <div class="col-md-2 col-sm-3 col-3" *ngFor="let category of categories.slice(0, 5)">
+                        <div class="col-md-2 col-sm-3 col-3" *ngFor="let category of categories.slice(0, 6)">
                             <div class="category-card" (click)="searchByFood(category.type)">
                                 <div class="">
                                     <img [src]="categoryImageLocation + category.src1" [alt]="category.name" class="category-img">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 col-sm-3 col-3" *ngIf="categories.length > 5">
+                        <!-- <div class="col-md-2 col-sm-3 col-3" *ngIf="categories.length > 5">
                             <div class="category-card">
                                 <div class="">
                                     <span class="catergory-img">More...</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
         <br>
-        <div *ngIf="restaurants.length >= 1; else no_restaurant_found">
+        <div *ngIf="restaurants.length >= 1; else no_restaurant_found" class="col-mdhome-body-parts">
             <div class="card">
                 <div class="card-header text-align-center">
                     <h2>Browse Restaurants</h2>
                 </div>
                 <div class="card-body restaurant-card-body">
                     <div *ngFor="let restaurant of restaurants">
-                        <div class="alert alert-primary restaurants" [routerLink]="'restaurant/' + restaurant.id">
+                        <div class="alert alert-primary restaurants" (click)="gotorestaurant(restaurant.id)">
                             {{restaurant.name}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <ng-template #no_restaurant_found>
-            <div class="alert alert-danger">
+        <ng-template #no_restaurant_found >
+            <div class="alert alert-danger home-body-parts">
                 <h3>Choose your location from the Top bar to browse nearby Restaurants</h3>
             </div>
         </ng-template>
     </div>
 </div>
+<br>
 <br>
 <br>

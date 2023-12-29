@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location.service';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 import { HomeComponent } from '../home.component';
+import { LocationUpdateService } from 'src/app/shared/location-update.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,11 @@ export class HeaderComponent implements OnInit {
   loggedInUser!: any
   chosenLocation: any = null
   locations: any[] = []
-  constructor(private router: Router, private locationService: LocationService, private home: HomeComponent) { }
+  constructor(
+    private router: Router, 
+    private locationService: LocationService, 
+    private locationUpdateService: LocationUpdateService
+  ) { }
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(localStorage.getItem(LocalStorageKeys.loggedInCustomer) + '')
@@ -44,6 +49,14 @@ export class HeaderComponent implements OnInit {
       let chosenLocationObject = this.locations.filter(i => i.pin === this.chosenLocation)[0]
       localStorage.setItem(LocalStorageKeys.chosenLocation, JSON.stringify(chosenLocationObject))
     }
-    this.home.loadData()
+    this.locationUpdateService.updateLocation(this.chosenLocation)
+  }
+
+  gohome = () => {
+    this.router.navigate([''])
+  }
+
+  gotocart = () => {
+    this.router.navigate(['cart'])
   }
 }

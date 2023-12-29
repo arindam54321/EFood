@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RestaurantService } from 'src/app/services/restaurant.service';
+import { LocationUpdateService } from 'src/app/shared/location-update.service';
 import { Constants } from 'src/shared/contants';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 import { LoginCheck } from 'src/shared/login-check';
@@ -14,13 +15,22 @@ export class HomeComponent implements OnInit {
 
   categories: any[] = []
   restaurants: any[] = []
+  searchKey: string = ''
   categoryImageLocation!: string
 
-  constructor(private router: Router, private restaurantService: RestaurantService) { }
+  constructor(
+    private router: Router, 
+    private restaurantService: RestaurantService,
+    private locationUpdateService: LocationUpdateService
+  ) { }
 
   ngOnInit(): void {
     this.initialChecks()
-    this.loadData()
+    this.locationUpdateService.selectedLocation$.subscribe(
+      location => {
+        this.loadData()
+      }
+    )
   }
 
   initialChecks = () => {
@@ -51,5 +61,13 @@ export class HomeComponent implements OnInit {
 
   searchByFood = (type: string) => {
     this.router.navigate(['food/' + type])
+  }
+
+  search = () => {
+    this.router.navigate(['search/' + this.searchKey])
+  }
+
+  gotorestaurant = (id: string) => {
+    this.router.navigate(['restaurant/' + id])
   }
 }

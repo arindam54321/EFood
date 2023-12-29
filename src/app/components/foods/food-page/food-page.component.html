@@ -1,4 +1,4 @@
-<br>
+<app-header></app-header>
 <div class="container">
     <div *ngIf="!isLocationChosen; else location_was_chosen">
         <div class="alert alert-danger">
@@ -8,15 +8,21 @@
     <ng-template #location_was_chosen>
         <div *ngIf="!isFoodTypeValid; else food_type_is_valid">
             <div class="alert alert-danger">
-                <h1>The Food type you selected is no valid</h1>
+                <h1>The Food type you selected is not valid</h1>
             </div>
         </div>
         <ng-template #food_type_is_valid>
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <span class="h1 col-md-5 col-5">{{foodType}}</span>
-                        <select name="location" id="location" class="col-md-3 col-4 food-sort-select" (change)="sortFoods(foodSortBy)"
+                        <select name="food-type" id="food-type" class="col-md-3 col-4 food-type-select" (change)="sortFoods(foodSortBy)"
+                            [(ngModel)]="foodType" (change)="changeFoodType(foodType)">
+                            <option *ngFor="let type of foodCategories" [value]="type.type">
+                                {{type.name}}
+                            </option>
+                        </select>
+                        <span class="col-md-2 col-1"></span>
+                        <select name="food-sort" id="food-sort" class="col-md-3 col-4 food-sort-select" (change)="sortFoods(foodSortBy)"
                             [(ngModel)]="foodSortBy">
                             <option [value]="'NONE'" disabled selected>Sort By</option>
                             <option [value]="'NONE'">None</option>
