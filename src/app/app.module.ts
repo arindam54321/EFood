@@ -18,6 +18,8 @@ import { RestaurantLandingPageComponent } from './components/restaurants/restaur
 import { ViewKartComponent } from './components/kart/view-kart/view-kart.component';
 import { FoodPageComponent } from './components/foods/food-page/food-page.component';
 import { SearchPageComponent } from './components/search/search-page/search-page.component';
+import { OrderPageComponent } from './components/customer/order-page/order-page.component';
+import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { SearchPageComponent } from './components/search/search-page/search-page
     RestaurantLandingPageComponent,
     ViewKartComponent,
     FoodPageComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    OrderPageComponent,
+    LoadingBarComponent
   ],
   imports: [
     BrowserModule,

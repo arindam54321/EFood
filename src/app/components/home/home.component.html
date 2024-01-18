@@ -56,9 +56,12 @@
             </div>
         </div>
         <ng-template #no_restaurant_found >
-            <div class="alert alert-danger home-body-parts">
+            <div class="alert alert-danger home-body-parts" *ngIf="isRestautantLoaded; else restaurant_not_loaded_yet">
                 <h3>Choose your location from the Top bar to browse nearby Restaurants</h3>
             </div>
+            <ng-template #restaurant_not_loaded_yet>
+                <app-loading-bar [alertType]="'primary'"></app-loading-bar>
+            </ng-template>
         </ng-template>
     </div>
 </div>

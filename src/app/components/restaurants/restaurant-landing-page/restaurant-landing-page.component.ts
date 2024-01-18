@@ -14,6 +14,8 @@ import { LoginCheck } from 'src/shared/login-check';
 })
 export class RestaurantLandingPageComponent implements OnInit {
 
+  isFoodLoaded: boolean = true
+
   restaurantId: any
   restaurantExists: boolean = true
   restaurantData: any = {}
@@ -23,6 +25,8 @@ export class RestaurantLandingPageComponent implements OnInit {
   categoryImageLocation!: string
   foodCategories: any[] = []
   foodPriceRange: any[] = []
+  foodMinimumLimit: number = 0
+  foodMaximumLimit: number = 100
 
   foods: any[] = []
   foodsSorted: any[] = []
@@ -37,6 +41,7 @@ export class RestaurantLandingPageComponent implements OnInit {
   numberOfFiltersApplied: number = 0
   
   cartItems: any = {}
+  totalBill: number = 0
 
   constructor(
     private location: Location,
@@ -84,6 +89,7 @@ export class RestaurantLandingPageComponent implements OnInit {
   }
 
   loadFoods = () => {
+    this.isFoodLoaded = false
     this.foodService.getByRestaurant(this.restaurantId).subscribe(
       success => {
         this.foods = success.data
@@ -93,6 +99,7 @@ export class RestaurantLandingPageComponent implements OnInit {
           this.foodTypeFiltersDisabled[idx] = false
         }
 
+        this.isFoodLoaded = true
         this.sortFoods('NONE')
         this.isRestaurantSameAsCart()
       },
@@ -107,7 +114,7 @@ export class RestaurantLandingPageComponent implements OnInit {
     if (sortBy === 'NONE') {
       // Do Nothing
     } else if (sortBy === 'PASC') {
-      this.foodsSorted.sort((a, b) => a.price < b.price ? -1:1)
+      this.foodsSorted.sort((a, b) => a.price < b.price ? -1 : 1)
     } else if (sortBy === 'PDES') {
       this.foodsSorted.sort((a, b) => a.price > b.price ? -1 : 1)
     } else if (sortBy === 'TASC') {
@@ -165,8 +172,7 @@ export class RestaurantLandingPageComponent implements OnInit {
 
   reduceFromCart = (id: any) => {
     this.cartItems[id] -= 1
-    this.updateCartItems()
-    this.checkIfCartEmpty()
+    this.updateAndCheckCartItems()
   }
 
   increaseFromCart = (id: any) => {
@@ -176,7 +182,10 @@ export class RestaurantLandingPageComponent implements OnInit {
 
   deleteFromCart = (id: any) => {
     this.cartItems[id] = 0
-    this.updateCartItems()
+    this.updateAndCheckCartItems()
+  }
+
+  updateAndCheckCartItems = () => {
     this.checkIfCartEmpty()
   }
 
@@ -209,8 +218,22 @@ export class RestaurantLandingPageComponent implements OnInit {
 
   checkIfCartEmpty = () => {
     let hasItems: boolean = false
-    this.foods.forEach(food => { if (this.cartItems[food.id] > 0) hasItems = true })
-    if (!hasItems) { this.deleteCart() }
+    this.foods.forEach(food => { 
+      if (this.cartItems[food.id] !== null && this.cartItems[food.id] > this.foodMinimumLimit) {
+        hasItems = true 
+        if (this.cartItems[food.id] > this.foodMaximumLimit) {
+          this.cartItems[food.id] = this.foodMaximumLimit
+        }
+      } else {
+        this.cartItems[food.id] = 0
+      }
+    })
+
+    if (!hasItems) { 
+      this.deleteCart() 
+    } else {
+      this.updateCartItems()
+    }
   }
 
   viewCart = () => {
@@ -229,5 +252,17 @@ export class RestaurantLandingPageComponent implements OnInit {
     this.foodTypeFiltersSelected = []
     this.foodTypeFiltersApplied = []
     this.foodTypeFiltersDisabled = []
+  }
+
+  doCartHasItems = (): boolean => {
+    return localStorage.getItem(LocalStorageKeys.cartItems) !== null
+  }
+
+  calculateTotalBill = () => {
+    this.totalBill = 0
+    for(let food of this.foods) {
+      this.totalBill += food.price * this.cartItems[food.id]
+    }
+    return this.totalBill
   }
 }

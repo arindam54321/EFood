@@ -26,7 +26,7 @@
             <div class="card-header">
                 <div class="row">
                     <span class="h1 col-md-5 col-5">{{restaurantData.name}}</span>
-                    <select name="location" id="location" class="col-md-3 col-4 food-sort-select" (change)="sortFoods(foodSortBy)" [(ngModel)]="foodSortBy">
+                    <select name="food-sort" id="food-sort" class="col-md-3 col-4 food-sort-select" (change)="sortFoods(foodSortBy)" [(ngModel)]="foodSortBy">
                         <option [value]="'NONE'" disabled selected>Sort By</option>
                         <option [value]="'NONE'">None</option>
                         <option [value]="'PASC'">Price: Low to High</option>
@@ -45,9 +45,12 @@
             </div>
             <div class="card-body">
                 <div *ngIf="foods.length === 0">
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger" *ngIf="isFoodLoaded; else food_not_loaded_yet">
                         <h3>No food available currently</h3>
                     </div>
+                    <ng-template #food_not_loaded_yet>
+                        <app-loading-bar [alertType]="'secondary'"></app-loading-bar>
+                    </ng-template>
                 </div>
                 <div *ngIf="foods.length > 0 && foodsFiltered.length === 0">
                     <div class="alert alert-danger">
@@ -69,12 +72,25 @@
                                 <br>
                                 <strong>Add to Cart:</strong><br>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <button class="btn btn-sm btn-danger" [disabled]="cartItems[food.id]===0" (click)="reduceFromCart(food.id)">-</button>
-                                    <input type="text" disabled [placeholder]="cartItems[food.id]" class="cart-item-value">
-                                    <button class="btn btn-sm btn-success" [disabled]="!restaurantSameAsCart" (click)="increaseFromCart(food.id)">+</button>
+                                    <button class="btn btn-sm btn-danger" 
+                                        [disabled]="cartItems[food.id]<=0" 
+                                        (click)="reduceFromCart(food.id)"
+                                    >-</button>
+                                    <input type="number" 
+                                        [min]="foodMinimumLimit" 
+                                        [max]="foodMaximumLimit" 
+                                        [disabled]="!restaurantSameAsCart" 
+                                        [(ngModel)]="cartItems[food.id]" 
+                                        class="cart-item-value" 
+                                        (change)="updateAndCheckCartItems()"
+                                    >
+                                    <button class="btn btn-sm btn-success" 
+                                        [disabled]="!restaurantSameAsCart || cartItems[food.id] >= foodMaximumLimit" 
+                                        (click)="increaseFromCart(food.id)"
+                                    >+</button>
                                 </div>
                                 &nbsp;
-                                <button class="btn btn-sm btn-danger" [disabled]="cartItems[food.id]===0" (click)="deleteFromCart(food.id)">Remove</button>
+                                <button class="btn btn-sm btn-danger" [disabled]="cartItems[food.id]<=0" (click)="deleteFromCart(food.id)">Remove</button>
                             </span>
                         </div>
                     </div>
@@ -85,6 +101,19 @@
 </div>
 <div *ngIf="!restaurantExists">
     <app-invalid-route></app-invalid-route>
+</div>
+
+<div class="checkout-button-container">
+    <span class="">
+        <button class="btn btn-success btn-block checkout-button" 
+            *ngIf="restaurantSameAsCart && doCartHasItems()"
+            (click)="viewCart()"
+        >
+            Checkout
+            <br>
+            ₹{{calculateTotalBill()}}
+        </button>
+    </span>
 </div>
 
 <div class="modal fade" id="filterModal" #FilterModal tabindex="-1" aria-labelledby="filterModalHeader">

@@ -14,6 +14,8 @@ import { LoginCheck } from 'src/shared/login-check';
 })
 export class FoodPageComponent implements OnInit {
 
+  isFoodLoaded: boolean = true
+
   foodType: any
   isFoodTypeValid: boolean = false
   
@@ -73,6 +75,7 @@ export class FoodPageComponent implements OnInit {
   }
 
   loadFoodDetails = () => {
+    this.isFoodLoaded = false
     this.isFoodTypeValid = this.foodCategories.some(i => i.type === this.foodType)
     if (this.isLocationChosen && this.isFoodTypeValid) {
       this.restaurantService.getByLocation(this.chosenLocation.pin).subscribe(
@@ -87,6 +90,7 @@ export class FoodPageComponent implements OnInit {
                 this.foods.push(temp)
               }
               this.sortFoods('NONE')
+              this.isFoodLoaded = true
             },
             fooderror => {
               // DO NOTHING

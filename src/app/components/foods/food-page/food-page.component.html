@@ -40,9 +40,12 @@
                 </div>
                 <div class="card-body">
                     <div *ngIf="foods.length === 0">
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger" *ngIf="isFoodLoaded; else food_not_loaded_yet">
                             <h3>No food available currently</h3>
                         </div>
+                        <ng-template #food_not_loaded_yet>
+                            <app-loading-bar [alertType]="null"></app-loading-bar>
+                        </ng-template>
                     </div>
                     <div *ngIf="foods.length > 0 && foodsFiltered.length === 0">
                         <div class="alert alert-danger">

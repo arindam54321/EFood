@@ -20,9 +20,12 @@
         </form>
         <br>
         <div *ngIf="matchingFoodsByLocation.length === 0 && matchingRestaurantsByLocation.length === 0">
-            <div class="alert alert-danger">
+            <div class="alert alert-danger" *ngIf="isDataLoaded; else data_not_loaded_yet">
                 <h1>No matches found 😭</h1>
             </div>
+            <ng-template #data_not_loaded_yet>
+                <app-loading-bar [alertType]="'secondary'"></app-loading-bar>
+            </ng-template>
         </div>
         <div class="card" *ngIf="matchingFoodsByLocation.length > 0">
             <div class="card-header h3" type="button" data-bs-toggle="collapse" data-bs-target="#foodSearchCollapse"

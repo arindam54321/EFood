@@ -14,6 +14,8 @@ import { Constants } from 'src/shared/contants';
 })
 export class SearchPageComponent implements OnInit {
 
+  isDataLoaded: boolean = true
+
   searchKey: any
   options: any = { pre: '<b>', post: '</b>' }
   categoryImageLocation: any
@@ -68,11 +70,13 @@ export class SearchPageComponent implements OnInit {
           this.allFoodsByLocation.push(temp)
         }
         this.filterFoods()
+        this.isDataLoaded = true
       }
     )
   }
 
   loadRestaurants = () => {
+    this.isDataLoaded = false
     this.restaurantService.getByLocation(this.locationObject.pin).subscribe(
       success => {
         this.allRestaurantsByLocation = success.data

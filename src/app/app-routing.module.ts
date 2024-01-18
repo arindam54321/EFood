@@ -10,6 +10,7 @@ import { RestaurantLandingPageComponent } from './components/restaurants/restaur
 import { ViewKartComponent } from './components/kart/view-kart/view-kart.component';
 import { FoodPageComponent } from './components/foods/food-page/food-page.component';
 import { SearchPageComponent } from './components/search/search-page/search-page.component';
+import { OrderPageComponent } from './components/customer/order-page/order-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'cart', component: ViewKartComponent },
   { path: 'food/:type', component: FoodPageComponent },
   { path: 'search/:key', component: SearchPageComponent },
+  { path: 'orders', component: OrderPageComponent },  
   { path: '**', component: InvalidRouteComponent }
 ]
 

@@ -15,4 +15,5 @@ export class Constants {
         { from: 0, to: 750 },
         { from: 0, to: 1000 }
     ]
+    public static selectedLocationNotSelected = 'No Location Selected'
 }

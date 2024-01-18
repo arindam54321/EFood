@@ -1,52 +1,97 @@
 <app-header></app-header>
 <div class="container">
-    <div *ngIf="isCartEmpty;else cart_having_items">
-        <div class="alert alert-danger">
-            <h3>Cart is Empty</h3>
-            <button class="btn btn-secondary" (click)="goback()">Back</button>
-            &nbsp;
-            <button class="btn btn-primary" (click)="goHome()">Go Home</button>
+    <div *ngIf="orderPlaced; else order_not_placed_yet">
+        <div class="alert alert-success">
+            <h1>
+                Your Orders has been Placed
+            </h1>
+            <button class="btn btn-success btn-block" (click)="goToOrders()">Go To Orders</button>
         </div>
     </div>
-    <ng-template #cart_having_items>
-        <div>
-            <button class="btn btn-secondary" (click)="goback()">Back</button>
-            &nbsp;
-            <button class="btn btn-primary" (click)="goHome()">Go Home</button>
-            &nbsp;
-            <button class="btn btn-danger" (click)="emptyCart()">Empty Cart</button>
-            <hr>
-            <div class="card">
-                <div class="card-header">
-                    <span (click)="goToRestaurant()" class="restaurant-name"><h2>{{restaurantFromCart.name}}</h2></span>
+    <ng-template #order_not_placed_yet>
+        <div *ngIf="isCartEmpty;else cart_having_items">
+            <div class="alert alert-danger">
+                <h3>Cart is Empty</h3>
+                <button class="btn btn-secondary" (click)="goback()">Back</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="goHome()">Go Home</button>
+                &nbsp;
+                <button class="btn btn-success" (click)="goToOrders()">Orders</button>
+            </div>
+        </div>
+        <ng-template #cart_having_items>
+            <div>
+                <button class="btn btn-secondary" (click)="goback()">Back</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="goHome()">Go Home</button>
+                &nbsp;
+                <button class="btn btn-danger" (click)="emptyCart()">Empty Cart</button>
+                <hr>
+                <div class="card">
+                    <div class="card-header">
+                        <span (click)="goToRestaurant()" class="restaurant-name"><h2>{{restaurantFromCart.name}}</h2></span>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover table-striped" *ngIf="isFoodLoaded; else food_not_loaded_yet">
+                            <thead class="">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of cartItems">
+                                    <td>{{item.item.title}}</td>
+                                    <td>₹{{item.item.price}}</td>
+                                    <td>{{item.count}}</td>
+                                    <td>₹{{item.item.price * item.count}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ng-template #food_not_loaded_yet>
+                            <app-loading-bar [alertType]="null"></app-loading-bar>
+                        </ng-template>
+                        <hr>
+                        <strong>Total: </strong> ₹{{totalBalance}}
+                        &nbsp;
+                        <button class="btn btn-primary" (click)="goToRestaurant()">Edit Cart</button>
+                        &nbsp;
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#paymentModal">Pay & Order</button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead class="">
-                            <tr>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of cartItems">
-                                <td>{{item.item.title}}</td>
-                                <td>₹{{item.item.price}}</td>
-                                <td>{{item.count}}</td>
-                                <td>₹{{item.item.price * item.count}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr>
-                    <strong>Total: </strong> ₹{{totalBalance}}
+            </div>
+        </ng-template>
+    </ng-template>
+</div>
+
+<div class="modal fade" id="paymentModal" #PaymentModal tabindex="-1" aria-labelledby="paymentModalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <h3 id="paymentModalHeader" class="text-danger">Payment Confirmation</h3>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6> <span class="text-danger">*</span> This is a Test Application</h6>
+                    <br>
+                    <p>
+                        This Page is made for testing the payment functionality. No orderes will be created after you pay. If any money is debited it will directly go to the Authors account. For testing purpose the payment amount will be <span class="text-success">₹{{1}}</span>
+                    </p>
+                    <br>
+                    <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+                        (click)="paymentOrder(1)">
+                        Pay ₹{{1}}
+                    </button>
                     &nbsp;
-                    <button class="btn btn-primary" (click)="goToRestaurant()">Edit Cart</button>
-                    &nbsp;
-                    <button class="btn btn-success">Pay & Order</button>
+                    <button class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
-    </ng-template>
+    </div>
 </div>
+<br>

@@ -59,4 +59,8 @@ export class HeaderComponent implements OnInit {
   gotocart = () => {
     this.router.navigate(['cart'])
   }
+
+  gotoorders = () => {
+    this.router.navigate(['orders'])
+  }
 }

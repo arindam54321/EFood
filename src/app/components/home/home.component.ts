@@ -13,6 +13,8 @@ import { LoginCheck } from 'src/shared/login-check';
 })
 export class HomeComponent implements OnInit {
 
+  isRestautantLoaded: boolean = true
+
   categories: any[] = []
   restaurants: any[] = []
   searchKey: string = ''
@@ -50,10 +52,15 @@ export class HomeComponent implements OnInit {
   loadRestaurants = () => {
     this.restaurants = []
     if (localStorage.getItem(LocalStorageKeys.chosenLocation)) {
+      this.isRestautantLoaded = false
       let chosenLocationObject = JSON.parse(localStorage.getItem(LocalStorageKeys.chosenLocation) + '')
       this.restaurantService.getByLocation(chosenLocationObject.pin).subscribe(
         success => {
           this.restaurants = success.data
+          this.isRestautantLoaded = true
+        },
+        error => {
+          this.isRestautantLoaded = true
         }
       )
     }

@@ -1,0 +1,9 @@
+.order-status {
+    padding: 0px 5px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.order-status-container {
+    text-align: right;
+}
