@@ -64,7 +64,7 @@ export class FoodPageComponent implements OnInit {
   }
 
   initialChecks = () => {
-    LoginCheck.loginCheck()
+    LoginCheck.loginCheck(this.router)
     this.foodCategories = Constants.foodCategories
     this.isLocationChosen = localStorage.getItem(LocalStorageKeys.chosenLocation) !== null
     this.chosenLocation = JSON.parse(localStorage.getItem(LocalStorageKeys.chosenLocation) + '')

@@ -10,8 +10,10 @@
     </div>
     <ng-template #order_not_placed_yet>
         <div *ngIf="isCartEmpty;else cart_having_items">
-            <div class="alert alert-danger">
+            <div class="alert alert-primary empty-cart-container">
                 <h3>Cart is Empty</h3>
+                <img src="../../../../assets/images/gifs/cartempty.gif" alt="Cart Empty" class="empty-cart-gif">
+                <hr>
                 <button class="btn btn-secondary" (click)="goback()">Back</button>
                 &nbsp;
                 <button class="btn btn-primary" (click)="goHome()">Go Home</button>
@@ -25,7 +27,7 @@
                 &nbsp;
                 <button class="btn btn-primary" (click)="goHome()">Go Home</button>
                 &nbsp;
-                <button class="btn btn-danger" (click)="emptyCart()">Empty Cart</button>
+                <button class="btn btn-danger" (click)="emptyCartConfirmation()">Empty Cart</button>
                 <hr>
                 <div class="card">
                     <div class="card-header">

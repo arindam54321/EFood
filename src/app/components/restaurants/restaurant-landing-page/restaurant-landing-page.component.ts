@@ -6,6 +6,7 @@ import { RestaurantService } from 'src/app/services/restaurant.service';
 import { Constants } from 'src/shared/contants';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 import { LoginCheck } from 'src/shared/login-check';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-restaurant-landing-page',
@@ -64,7 +65,7 @@ export class RestaurantLandingPageComponent implements OnInit {
   }
 
   initialChecks = () => {
-    LoginCheck.loginCheck()
+    LoginCheck.loginCheck(this.router)
     this.categoryImageLocation = '../../../' + Constants.foodCategoryImageLocation
     this.foodCategories = Constants.foodCategories
     this.foodCategories.forEach(i => {
@@ -192,6 +193,23 @@ export class RestaurantLandingPageComponent implements OnInit {
   updateCartItems = () => {
     localStorage.setItem(LocalStorageKeys.cartForRestaurant, JSON.stringify(this.restaurantData))
     localStorage.setItem(LocalStorageKeys.cartItems, JSON.stringify(this.cartItems))
+  }
+
+  emptyCartConfirmation = () => {
+    Swal.fire({
+      title: 'Empty Cart',
+      text: 'Are you sure you want to delete the cart items?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Close',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteCart()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Do Nothing
+      }
+    })
   }
 
   deleteCart = () => {

@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   }
 
   initialChecks = () => {
-    LoginCheck.loginCheck()
+    LoginCheck.loginCheck(this.router)
   }
 
   loadData = () => {

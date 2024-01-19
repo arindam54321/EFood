@@ -39,7 +39,7 @@ export class ViewKartComponent implements OnInit {
   }
 
   initChecks = () => {
-    LoginCheck.loginCheck()
+    LoginCheck.loginCheck(this.router)
     this.customerData = JSON.parse(localStorage.getItem(LocalStorageKeys.loggedInCustomer) + '')
     this.isCartEmpty = localStorage.getItem(LocalStorageKeys.cartForRestaurant) === null
     if (!this.isCartEmpty) { this.loadCartData() }
@@ -128,7 +128,6 @@ export class ViewKartComponent implements OnInit {
           cancelButtonText: 'Close',
         }).then((result) => {
           if (result.isConfirmed) {
-
             this.ngZone.run(() => this.goToOrders())
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             this.reloadPage()
@@ -140,6 +139,24 @@ export class ViewKartComponent implements OnInit {
       }
     )
   }
+
+  emptyCartConfirmation = () => {
+    Swal.fire({
+      title: 'Empty Cart',
+      text: 'Are you sure you want to delete the cart items?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Close',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.emptyCart()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Do Nothing
+      }
+    })
+  }
+
 
   emptyCart = () => {
     localStorage.removeItem(LocalStorageKeys.cartForRestaurant)

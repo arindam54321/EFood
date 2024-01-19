@@ -20,6 +20,7 @@ import { FoodPageComponent } from './components/foods/food-page/food-page.compon
 import { SearchPageComponent } from './components/search/search-page/search-page.component';
 import { OrderPageComponent } from './components/customer/order-page/order-page.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
+import { LayoutComponent } from './components/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LoadingBarComponent } from './components/loading-bar/loading-bar.compon
     FoodPageComponent,
     SearchPageComponent,
     OrderPageComponent,
-    LoadingBarComponent
+    LoadingBarComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

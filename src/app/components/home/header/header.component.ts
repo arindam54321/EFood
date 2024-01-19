@@ -4,6 +4,7 @@ import { LocationService } from 'src/app/services/location.service';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 import { HomeComponent } from '../home.component';
 import { LocationUpdateService } from 'src/app/shared/location-update.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,7 @@ import { LocationUpdateService } from 'src/app/shared/location-update.service';
 })
 export class HeaderComponent implements OnInit {
 
-  loggedInUser!: any
+  loggedInUser: any = {}
   chosenLocation: any = null
   locations: any[] = []
   constructor(
@@ -24,6 +25,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(localStorage.getItem(LocalStorageKeys.loggedInCustomer) + '')
     this.initChecks()
+  }
+
+  logoutConfirmation = () => {
+    Swal.fire({})
   }
 
   logout = () => {

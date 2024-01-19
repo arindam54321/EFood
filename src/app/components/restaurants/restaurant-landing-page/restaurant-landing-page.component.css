@@ -28,6 +28,6 @@
 }
 
 .checkout-button {
-    box-shadow: 1px 2px 5px #000000;
+    box-shadow: 3px 3px 5px #000000;
     pointer-events: auto;
 }

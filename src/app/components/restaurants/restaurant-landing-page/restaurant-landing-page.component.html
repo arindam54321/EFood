@@ -9,7 +9,7 @@
                 &nbsp;
                 <button class="btn btn-secondary" (click)="gohome()">Home</button>
                 &nbsp;
-                <button class="btn btn-danger" (click)="deleteCart()">Delete Cart</button>
+                <button class="btn btn-danger" (click)="emptyCartConfirmation()">Delete Cart</button>
                 &nbsp;
                 <button class="btn btn-primary" (click)="viewCart()">View Cart</button>
             </div>
@@ -90,7 +90,10 @@
                                     >+</button>
                                 </div>
                                 &nbsp;
-                                <button class="btn btn-sm btn-danger" [disabled]="cartItems[food.id]<=0" (click)="deleteFromCart(food.id)">Remove</button>
+                                <button class="btn btn-sm btn-danger" 
+                                    [disabled]="cartItems[food.id]<=0" 
+                                    (click)="deleteFromCart(food.id)"
+                                >Remove</button>
                             </span>
                         </div>
                     </div>
