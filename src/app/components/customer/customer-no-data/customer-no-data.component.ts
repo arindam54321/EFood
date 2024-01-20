@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-no-data',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerNoDataComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  login = () => {
+    this.router.navigate(['login'])
+  }
+
+  signin = () => {
+    this.router.navigate(['signin'])
+  }
+
+  gotoregister = () => {
+    this.router.navigate(['register'])
+  }
 }

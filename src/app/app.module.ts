@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { InvalidRouteComponent } from './components/invalid-route/invalid-route.component';
+import { InvalidRouteComponent } from './components/utils/invalid-route/invalid-route.component';
 import { HeaderComponent } from './components/home/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -19,8 +19,10 @@ import { ViewKartComponent } from './components/kart/view-kart/view-kart.compone
 import { FoodPageComponent } from './components/foods/food-page/food-page.component';
 import { SearchPageComponent } from './components/search/search-page/search-page.component';
 import { OrderPageComponent } from './components/customer/order-page/order-page.component';
-import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
-import { LayoutComponent } from './components/layout/layout.component';
+import { LoadingBarComponent } from './components/utils/loading-bar/loading-bar.component';
+import { LayoutComponent } from './components/utils/layout/layout.component';
+import { LoginSignupComponent } from './components/customer/login-signup/login-signup.component';
+import { LocationMissingComponent } from './components/utils/location-missing/location-missing.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { LayoutComponent } from './components/layout/layout.component';
     SearchPageComponent,
     OrderPageComponent,
     LoadingBarComponent,
-    LayoutComponent
+    LayoutComponent,
+    LoginSignupComponent,
+    LocationMissingComponent
   ],
   imports: [
     BrowserModule,

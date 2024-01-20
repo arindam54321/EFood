@@ -1,18 +1,22 @@
 <br>
 <div class="container container-fluid">
     <div class="card">
-        <div class="card-header alert alert-success text-align-center">
-            <h1>HungryHub</h1>
-        </div>
         <div class="card-body text-align-center">
-            <span class="row">
+            <h1>Welcome to Hungry Hub</h1>
+            <img src="../../../../assets/images/gifs/foods.gif" alt="Hungry Hub" class="food-gif">
+            <br>
+            <p>An online food ordering app</p>
+            <!-- <span class="row">
                 <span class="col-md-6 col-sm-6 col-6">
-                    <button class="btn btn-success login-btn" routerLink="/login">Login</button>
+                    <button class="btn btn-success login-btn" (click)="login()">Login</button>
                 </span>
                 <span class="col-md-6 col-sm-6 col-6">
-                    <button class="btn btn-success signin-btn" routerLink="/signin">Sign In</button>
+                    <button class="btn btn-success signin-btn" (click)="signin()">Sign In</button>
                 </span>
-            </span>
+            </span> -->
+            <button class="btn btn-success" (click)="gotoregister()">
+                LOGIN&nbsp;&nbsp;|&nbsp;&nbsp;SIGNUP
+            </button>
         </div>
     </div>
 </div>

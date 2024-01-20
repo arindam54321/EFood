@@ -28,7 +28,20 @@ export class HeaderComponent implements OnInit {
   }
 
   logoutConfirmation = () => {
-    Swal.fire({})
+    Swal.fire({
+      title: 'Logout Confirmation',
+      text: 'Are you sure you want to logout?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Logout',
+      cancelButtonText: 'Close',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.logout()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Do Nothing
+      }
+    })
   }
 
   logout = () => {
@@ -67,5 +80,9 @@ export class HeaderComponent implements OnInit {
 
   gotoorders = () => {
     this.router.navigate(['orders'])
+  }
+
+  gotoprofile = () => {
+    this.router.navigate(['you'])
   }
 }

@@ -26,4 +26,9 @@ export class CustomerServiceService {
     let url = `${this.urlPrefix}/get?email=${email}`
     return this.http.get(url).pipe(catchError(Backend.handleError))
   }
+
+  updateCustomer = (data: any): Observable<any> => {
+    let url = `${this.urlPrefix}/update`
+    return this.http.patch(url, data).pipe(catchError(Backend.handleError))
+  }
 }

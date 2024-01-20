@@ -1,0 +1,11 @@
+.small-image {
+    max-width: 20vw;
+    max-height: 20vh;
+    border-radius: 10px;
+}
+
+.big-image {
+    max-height: 50vh;
+    max-width: 80vw;
+    border-radius: 10px;
+}

@@ -8,14 +8,15 @@ import Swal from 'sweetalert2';
 })
 export class LoadingBarComponent implements OnInit {
 
-  @Input() alertType: any = 'secondary'
-  validAlertTypes: string[] = ['primary', 'secondary', 'warning', 'success', 'danger', 'info', 'light', 'dark']
+  @Input() alertType: 'primary' | 'secondary' | 'warning' 
+                    | 'success' | 'danger' | 'info' 
+                    | 'light' | 'dark' | null = 'secondary'
   containerClass: string = ''
 
   constructor() { }
 
   ngOnInit(): void {
-    if (this.validAlertTypes.includes(this.alertType)) {
+    if (this.alertType !== null) {
       this.containerClass = 'container loader-container alert alert-' + this.alertType
     } else {
       this.containerClass = 'container loader-container alert'

@@ -1,9 +1,10 @@
 <app-header></app-header>
 <div class="container">
     <div *ngIf="!isLocationChosen; else location_was_chosen">
-        <div class="alert alert-danger">
+        <!-- <div class="alert alert-danger">
             <h1>You have to choose a Location before viewing this page</h1>
-        </div>
+        </div> -->
+        <app-location-missing [bannerType]="'big'"></app-location-missing>
     </div>
     <ng-template #location_was_chosen>
         <div *ngIf="!isFoodTypeValid; else food_type_is_valid">

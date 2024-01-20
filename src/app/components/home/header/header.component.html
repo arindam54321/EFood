@@ -15,7 +15,20 @@
             <!-- <span class="col-md-1 col-sm-1"></span> -->
             <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items" (click)="gotoorders()">📦 Orders</span>
             <!-- <span class="col-md-1 col-sm-1"></span> -->
-            <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items" data-bs-toggle="modal" data-bs-target="#logoutModal">👤{{loggedInUser.firstName}}</span>
+            <!-- <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items dropdown-toggle" data-bs-toggle="modal"
+                data-bs-target="#logoutModal">👤{{loggedInUser.firstName}}</span> -->
+            <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items dropdown">
+                <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    👤{{loggedInUser.firstName}}
+                </span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" (click)="gotoprofile()">👤 Profile</a></li>
+                    <li><a class="dropdown-item" (click)="gotocart">🛒 Cart</a></li>
+                    <li><a class="dropdown-item" (click)="gotoorders">📦 Orders</a></li>
+                    <li><a class="dropdown-item" (click)="logoutConfirmation()">🚫 Logout</a></li>
+                </ul>
+            </span>
         </span>
     </div>
 </nav>
