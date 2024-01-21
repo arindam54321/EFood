@@ -157,6 +157,22 @@ export class ViewKartComponent implements OnInit {
     })
   }
 
+  payConfirmation = () => {
+    Swal.fire({
+      title: '<span class="text-danger">This is a Test Application</span>',
+      html: `This Page is made for testing the payment functionality. No orderes will be created after you pay. If any money is debited it will directly go to the Authors account.<hr>For testing purpose the payment amount will be <span class="text-success">₹${1}</span>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: `Pay ₹${1}`,
+      cancelButtonText: 'Close',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.paymentOrder(1)
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Do Noting
+      }
+    })
+  }
 
   emptyCart = () => {
     localStorage.removeItem(LocalStorageKeys.cartForRestaurant)

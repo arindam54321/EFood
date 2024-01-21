@@ -148,8 +148,6 @@
                         Account already exists for this email id. You can login instead.
                     </div>
                     <br>
-                    <!-- <button class="btn btn-outline-success" (click)="reloadpage()">Log In</button>
-                    &nbsp; -->
                     <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
                 </div>
             </div>
@@ -163,7 +161,7 @@
                         Your account has been created.
                     </div>
                     <br>
-                    <button class="btn btn-primary" routerLink="/" data-bs-dismiss="modal" aria-label="Close">Go
+                    <button class="btn btn-primary" (click)="gohome()" data-bs-dismiss="modal" aria-label="Close">Go
                         Home</button>
                 </div>
             </div>

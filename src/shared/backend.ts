@@ -10,7 +10,7 @@ export class Backend {
 
   static cloudhost: string = `https://hungry-hub-arindam.onrender.com`
 
-  static hostname: string = Backend.customhost
+  static hostname: string = Backend.cloudhost
 
   public static handleError(error: HttpErrorResponse) {
     console.log(error)

@@ -58,9 +58,14 @@
                         <hr>
                         <strong>Total: </strong> ₹{{totalBalance}}
                         &nbsp;
-                        <button class="btn btn-primary" (click)="goToRestaurant()">Edit Cart</button>
+                        <button class="btn btn-primary" (click)="goToRestaurant()">
+                            Edit Cart
+                        </button>
                         &nbsp;
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#paymentModal">Pay & Order</button>
+                        <!-- <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#paymentModal" [disabled]="!isFoodLoaded">Pay &
+                            Order</button> -->
+                        <button class="btn btn-success" [disabled]="!isFoodLoaded" (click)="payConfirmation()"
+                        >Pay & Order</button>
                     </div>
                 </div>
             </div>
@@ -68,7 +73,7 @@
     </ng-template>
 </div>
 
-<div class="modal fade" id="paymentModal" #PaymentModal tabindex="-1" aria-labelledby="paymentModalHeader">
+<!-- <div class="modal fade" id="paymentModal" #PaymentModal tabindex="-1" aria-labelledby="paymentModalHeader">
     <div class="modal-dialog">
         <div class="modal-content">
             <div>
@@ -95,5 +100,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <br>

@@ -33,7 +33,7 @@ export class OrderPageComponent implements OnInit {
   }
 
   initialChecks = () => {
-    LoginCheck.isAnyoneLoggedIn()
+    LoginCheck.loginCheck(this.router)
     Utils.reloadCheck(this.route, this.router)
   }
 

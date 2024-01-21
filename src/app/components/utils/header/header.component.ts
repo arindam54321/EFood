@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location.service';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
-import { HomeComponent } from '../home.component';
+import { HomeComponent } from '../../home/home.component';
 import { LocationUpdateService } from 'src/app/shared/location-update.service';
 import Swal from 'sweetalert2';
 
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
 
   logout = () => {
     LocalStorageKeys.deleteCustomerDetails()
-    this.router.navigate(['new-user'])
+    this.router.navigate(['intro'])
   }
 
   initChecks = () => {

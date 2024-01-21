@@ -6,6 +6,7 @@ import { LocationUpdateService } from 'src/app/shared/location-update.service';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 import * as fuzzy from 'fuzzy'
 import { Constants } from 'src/shared/contants';
+import { LoginCheck } from 'src/shared/login-check';
 
 @Component({
   selector: 'app-search-page',
@@ -38,6 +39,7 @@ export class SearchPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initialChecks()
     this.categoryImageLocation = '../../../' + Constants.foodCategoryImageLocation
     this.locationUpdateService.selectedLocation$.subscribe(
       location => {
@@ -59,6 +61,10 @@ export class SearchPageComponent implements OnInit {
         this.filterRestaurants()
       }
     )
+  }
+
+  initialChecks = () => {
+    LoginCheck.loginCheck(this.router)
   }
 
   loadFoods = () => {

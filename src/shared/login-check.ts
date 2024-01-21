@@ -6,7 +6,7 @@ import * as jwt from 'jsonwebtoken'
 export class LoginCheck {
     static loginCheck = (router: Router) => {
         if (!this.isAnyoneLoggedIn()) {
-            router.navigate(['new-user'])
+            router.navigate(['intro'])
         } else if (this.isTokenExpired()) {
             Swal.fire({
                 title: 'Your Login expired!',

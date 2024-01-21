@@ -190,4 +190,8 @@ export class LoginSignupComponent implements OnInit {
   reloadpage = () => {
     this.router.navigate(['register'])
   }
+
+  gohome = () => {
+    this.router.navigate([''])
+  }
 }
