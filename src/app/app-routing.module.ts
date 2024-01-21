@@ -4,8 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { InvalidRouteComponent } from './components/utils/invalid-route/invalid-route.component';
 import { CustomerNoDataComponent } from './components/customer/customer-no-data/customer-no-data.component';
-import { CustomerLoginComponent } from './components/customer/customer-login/customer-login.component';
-import { CustomerSigninComponent } from './components/customer/customer-signin/customer-signin.component';
 import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
 import { ViewKartComponent } from './components/customer/view-kart/view-kart.component';
 import { FoodPageComponent } from './components/foods/food-page/food-page.component';

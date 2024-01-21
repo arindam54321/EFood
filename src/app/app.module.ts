@@ -10,8 +10,6 @@ import { HeaderComponent } from './components/utils/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CustomerNoDataComponent } from './components/customer/customer-no-data/customer-no-data.component';
-import { CustomerLoginComponent } from './components/customer/customer-login/customer-login.component';
-import { CustomerSigninComponent } from './components/customer/customer-signin/customer-signin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { RestaurantLandingPageComponent } from './components/restaurants/restaurant-landing-page/restaurant-landing-page.component';
@@ -32,8 +30,6 @@ import { LocationMissingComponent } from './components/utils/location-missing/lo
     InvalidRouteComponent,
     HeaderComponent,
     CustomerNoDataComponent,
-    // CustomerLoginComponent,
-    // CustomerSigninComponent,
     RestaurantLandingPageComponent,
     ViewKartComponent,
     FoodPageComponent,
