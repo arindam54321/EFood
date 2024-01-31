@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 export class Backend {
   static localport: number = 10000
@@ -16,20 +17,23 @@ export class Backend {
                           : this.localhost
 
   public static handleError(error: HttpErrorResponse) {
-    console.log(error)
-    let errorMessage: string = ''
+    let proccessedError: any = ''
+    
     if (error.error instanceof Error) {
-      errorMessage = error.error.message
-      console.log(errorMessage)
+      proccessedError = error.error.message
+      console.log(proccessedError)
     } else if (typeof error.error === 'string') {
-      errorMessage = JSON.parse(error.error).errorMessage
+      proccessedError = JSON.parse(error.error).errorMessage
     } else {
       if (error.status == 0) {
-        errorMessage = 'A connection to backend can not be established.'
+        proccessedError = {
+          message: 'A connection to backend can not be established',
+          status: 0
+        }
       } else {
-        errorMessage = error.error.errorMessage || error.error.text
+        proccessedError = error.error.errorMessage || error.error.text
       }
     }
-    return throwError(errorMessage)
+    return throwError(proccessedError)
   }
 }

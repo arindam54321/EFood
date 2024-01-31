@@ -205,8 +205,37 @@ export class LoginSignupComponent implements OnInit {
         localStorage.setItem(LocalStorageKeys.loggedInCustomer, JSON.stringify(guest))
         localStorage.setItem(LocalStorageKeys.jwt, jwt)
         this.router.navigate([''])
+      },
+      error => {
+        if (error.status == 0) {
+          this.backendconnectionissue()
+        } else {
+          this.somethingwentwrong()
+        }
       }
     )
+  }
+
+  somethingwentwrong = () => {
+    Swal.fire({
+      title: 'Error',
+      icon: 'error',
+      text: 'Something went wrong! Please try again',
+      showConfirmButton: false,
+      showDenyButton: true,
+      denyButtonText: 'Close'
+    })
+  }
+
+  backendconnectionissue = () => {
+    Swal.fire({
+      title: 'Error',
+      icon: 'error',
+      text: 'A connection to backend can not be established. Please try in a moment!',
+      showConfirmButton: false,
+      showDenyButton: true,
+      denyButtonText: 'Close'
+    })
   }
 
 
