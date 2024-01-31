@@ -1,0 +1,106 @@
+<app-header></app-header>
+
+<div class="container">
+    <div *ngIf="!isLocationChosen; else location_was_chosen">
+        <!-- <div class="alert alert-danger">
+            <h1>You have to choose a Location before viewing this page</h1>
+        </div> -->
+        <app-location-missing [bannerType]="'big'"></app-location-missing>
+    </div>
+    <ng-template #location_was_chosen>
+        <form class="form-inline">
+            <span class="row text-align-center">
+                <input class="form-control col col-md-6 col-sm-6 col-6" id="search-box" type="search"
+                    placeholder="Biryani, Momos..." aria-label="Search" [(ngModel)]="searchKey"
+                    [ngModelOptions]="{standalone: true}">
+                <span class="col-md-1 col-sm-1 col-1"></span>
+                <button class="btn btn-success col-md-2 col-sm-2 col-2" (click)="search()" [disabled]="!searchKey">
+                    Search
+                </button>
+            </span>
+        </form>
+        <br>
+        <div *ngIf="matchingFoodsByLocation.length === 0 && matchingRestaurantsByLocation.length === 0">
+            <div class="alert alert-danger" *ngIf="isDataLoaded; else data_not_loaded_yet">
+                <h1>No matches found 😭</h1>
+            </div>
+            <ng-template #data_not_loaded_yet>
+                <app-loading-bar [alertType]="'secondary'"></app-loading-bar>
+            </ng-template>
+        </div>
+        <div class="card" *ngIf="matchingFoodsByLocation.length > 0">
+            <div class="card-header h3" type="button" data-bs-toggle="collapse" data-bs-target="#foodSearchCollapse"
+                aria-expanded="false" aria-controls="foodSearchCollapse">
+                <span *ngIf="true; else down_arrow_foods">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                    </svg>
+                </span>
+                <ng-template #down_arrow_foods>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
+                    </svg>
+                </ng-template>
+                &nbsp;
+                <span class="badge bg-success" *ngIf="true">{{matchingFoodsByLocation.length}}</span>&nbsp;Foods
+            </div>
+            <div class="card-body collapse" id="foodSearchCollapse">
+                <div class="row alert alert-secondary" *ngFor="let food of matchingFoodsByLocation">
+                    <span class="col-md-2 col-sm-2 col-4">
+                        <img class="food-image" [src]="categoryImageLocation + food.type + '.webp'" [alt]="food.type">
+                    </span>
+                    <span class="col-md-1 col-sm-1 col-1"></span>
+                    <span class="col-md-8 col-sm-8 col-7">
+                        <strong>Title:</strong>&nbsp;<span class="food-details">{{food.title}}</span>
+                        <br>
+                        <strong>Description:</strong>&nbsp;<span class="food-details">{{food.description}}</span>
+                        <br>
+                        <strong>Price:</strong>&nbsp;<span class="food-details">₹{{food.price}}</span>
+                        <br>
+                        <strong>Restaurant:</strong>&nbsp;
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-success"
+                                (click)="gotorestaurant(food.restaurant)">{{food.restaurantObject.name}}</button>
+                            <button type="button" class="btn btn-outline-success" (click)="gotocart()"
+                                *ngIf="food.restaurant === cartForRestaurant.id">🛒</button>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br *ngIf="matchingFoodsByLocation.length > 0">
+        <div class="card" *ngIf="matchingRestaurantsByLocation.length > 0">
+            <div class="card-header h3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#restaurantSearchCollapse" aria-expanded="false"
+                aria-controls="restaurantSearchCollapse">
+                <span *ngIf="true; else down_arrow_restaurant">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                    </svg>
+                </span>
+                <ng-template #down_arrow_restaurant>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
+                    </svg>
+                </ng-template>
+                &nbsp;
+                <span class="badge bg-success" *ngIf="true">{{matchingRestaurantsByLocation.length}}</span>&nbsp;Restaurants
+            </div>
+            <div class="card-body collapse" id="restaurantSearchCollapse">
+                <div *ngFor="let restaurant of matchingRestaurantsByLocation">
+                    <div class="alert alert-primary restaurants" (click)="gotorestaurant(restaurant.id)">
+                        {{restaurant.name}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

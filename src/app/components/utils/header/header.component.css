@@ -1,0 +1,25 @@
+.nav-bar-menu-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bar-menu-items {
+    cursor: pointer;
+    color: #555555;
+}
+
+.navbar-heading {
+    cursor: pointer;
+    /* font-size: 2rem; */
+}
+
+.nav-bar-content {
+    display: flex;
+}
+
+.location-select, .location-select:focus {
+    border: none;
+    background-color: #cccccc;
+    border-radius: 10px;
+}

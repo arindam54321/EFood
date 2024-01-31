@@ -1,0 +1,9 @@
+.container {
+    text-align: center;
+} 
+
+.not-found-gif {
+    max-height: 50vh;
+    max-width: 80vw;
+    border-radius: 10px;
+}

@@ -1,0 +1,33 @@
+.food-image {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 10px;
+}
+
+.food-details {
+    color: #333333;
+}
+
+.food-sort-select {
+    border: none;
+    background-color: #cccccc;
+    border-radius: 10px;
+}
+
+.cart-item-value {
+    max-width: 50px;
+}
+
+.checkout-button-container {
+    position: sticky;
+    bottom: 10%;
+    text-align: right;
+    margin-right: 10%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.checkout-button {
+    box-shadow: 3px 3px 5px #000000;
+    pointer-events: auto;
+}

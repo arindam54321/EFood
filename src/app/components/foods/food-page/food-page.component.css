@@ -1,0 +1,19 @@
+.food-image {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 10px;
+}
+
+.food-details {
+    color: #333333;
+}
+
+.food-sort-select, .food-type-select {
+    border: none;
+    background-color: #cccccc;
+    border-radius: 10px;
+}
+
+.food-type-select {
+    font-size: large;
+}

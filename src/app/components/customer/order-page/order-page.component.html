@@ -1,0 +1,77 @@
+<app-header></app-header>
+<div class="container">
+    <!-- <button class="btn btn-secondary" (click)="goback()">Back</button>
+    <hr> -->
+    <div *ngIf="orders.length === 0; else have_orders">
+        <div class="alert alert-danger" *ngIf="isOrderLoaded; else order_not_loaded_yet">
+            <h1>You don't have any existing orders</h1>
+        </div>
+        <ng-template #order_not_loaded_yet>
+            <app-loading-bar></app-loading-bar>
+        </ng-template>
+    </div>
+    <ng-template #have_orders>
+        <div class="card">
+            <div class="card-header">
+                <h1>Your Orders</h1>
+            </div>
+            <div class="card-body">
+                <div *ngFor="let order of orders; let i = index">
+                    <br *ngIf="i !== 0">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-4 order-header">
+                                    <h4>{{order.restaurantName}}</h4>
+                                </div>
+                                <span class="col-md-5 col-sm-5 col-3"></span>
+                                <div class="col-md-3 col-sm-3 col-5 order-status-container"
+                                >
+                                    <span class="order-status"
+                                        [ngStyle]="{
+                                            'background-color': (order.status=='Ordered') ? 'red' 
+                                                : (order.status=='Delivered')? 'green'
+                                                : '#f0e402',
+                                            'color': (order.status=='Ordered') ? 'white' 
+                                                : (order.status=='Delivered')? 'white'
+                                                : 'black'
+                                        }"
+                                    >
+                                        {{order.status}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <strong class="text-capitalize">
+                                Ordered On: 
+                            </strong>
+                            {{order.date}}, {{order.time}}
+                            <hr>
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead class="">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of order.data">
+                                        <td>{{item.item.title}}</td>
+                                        <td>₹{{item.item.price}}</td>
+                                        <td>{{item.count}}</td>
+                                        <td>₹{{item.item.price * item.count}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <strong>Total: </strong> ₹{{order.totalPayment}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

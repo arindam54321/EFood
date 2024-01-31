@@ -1,0 +1,13 @@
+.restaurant-name {
+    cursor: pointer;
+}
+
+.empty-cart-container {
+    text-align: center;
+}
+
+.empty-cart-gif {
+    max-width: 80vw;
+    max-height: 50vh;
+    border-radius: 10px;
+}

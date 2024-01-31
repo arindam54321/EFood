@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light row">    
+    <div class="row nav-bar-content">
+        <span class="col-md-1 col-sm-1 col-1"></span>
+        <span class="col-md-2 col-sm-2 col-4" (click)="gohome()">
+            <a class="navbar-brand navbar-heading">🍔 HungryHub</a>
+        </span>
+        <span class="col-md-2 col-sm-2 col-1"></span>
+        <span class="col-md-7 col-sm-7 col-6 row nav-bar-menu-row">
+            <select name="location" id="location" class="nav-item col-md-4 col-sm-4 nav-bar-menu-items location-select" (change)="selectLocation()" [(ngModel)]="chosenLocation">
+                <option [value]="null" [selected]="chosenLocation === null">📍Choose Location</option>
+                <option *ngFor="let location of locations" [value]="location.pin" [selected]="chosenLocation === location.pin">📍{{location.name}}</option>
+            </select>
+            <span class="col-md-1 col-sm-1"></span>
+            <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items" (click)="gotocart()">🛒 Cart</span>
+            <!-- <span class="col-md-1 col-sm-1"></span> -->
+            <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items" (click)="gotoorders()">📦 Orders</span>
+            <!-- <span class="col-md-1 col-sm-1"></span> -->
+            <!-- <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items dropdown-toggle" data-bs-toggle="modal"
+                data-bs-target="#logoutModal">👤{{loggedInUser.firstName}}</span> -->
+            <span class="nav-item col-md-2 col-sm-2 nav-bar-menu-items dropdown">
+                <span class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    👤{{loggedInUser.firstName}}
+                </span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" (click)="gotoprofile()">👤 Profile</a></li>
+                    <li><a class="dropdown-item" (click)="gotocart">🛒 Cart</a></li>
+                    <li><a class="dropdown-item" (click)="gotoorders">📦 Orders</a></li>
+                    <li><a class="dropdown-item" (click)="logoutConfirmation()">🚫 Logout</a></li>
+                </ul>
+            </span>
+        </span>
+    </div>
+</nav>
+
+<div class="modal fade" id="logoutModal" #LogoutModal tabindex="-1" aria-labelledby="logoutModalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <h3 id="logoutModalHeader">Logout Confirmation</h3>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Are you sure you want to Logout?</h6>
+                    <br>
+                    <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close" (click)="logout()">
+                        Confirm
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>

@@ -1,0 +1,14 @@
+#search-box {
+    width: 60%;
+    margin-left: 5%;
+}
+
+.food-image {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 10px;
+}
+
+strong {
+    font-style: italic;
+}

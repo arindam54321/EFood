@@ -1,0 +1,21 @@
+<div class="alert alert-danger">
+    <div *ngIf="bannerType === 'small'; else big_banner">
+        <div class="row">
+            <div class="col-md-1 col-sm-1 col-1"></div>
+            <div class="col-md-3 col-sm-3 col-3">
+                <img src="../../../../assets/images/gifs/location.gif" alt="Invalid Location" [ngClass]="imageClass">
+            </div>
+            <div class="col-md-8 col-sm-8 col-8">
+                <h3>Choose Location from the Top bar to browse nearby Restaurants!</h3>
+            </div>
+        </div>
+    </div>
+    <ng-template #big_banner>
+        <div class="text-center">
+            <h1>Location Missing</h1>
+            <img src="../../../../assets/images/gifs/location.gif" alt="Invalid Location" [ngClass]="imageClass">
+            <hr>
+            <h5>Choose location from top bar to view this page!</h5>
+        </div>
+    </ng-template>
+</div>

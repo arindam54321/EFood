@@ -1,0 +1,178 @@
+<app-header></app-header>
+<div *ngIf="restaurantExists">
+    <div class="container">
+        <div *ngIf="!restaurantSameAsCart; else restaurant_same_as_cart">
+            <div class="alert alert-danger">
+                <h2>Your Cart has saved item(s) from another Restaurant</h2>
+                <h6>You have to delete them before adding something from this Restaurant</h6>
+                <button class="btn btn-secondary" (click)="goback()">Back</button>
+                &nbsp;
+                <button class="btn btn-secondary" (click)="gohome()">Home</button>
+                &nbsp;
+                <button class="btn btn-danger" (click)="emptyCartConfirmation()">Delete Cart</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="viewCart()">View Cart</button>
+            </div>
+        </div>
+        <ng-template #restaurant_same_as_cart>
+            <!-- <button class="btn btn-secondary" (click)="goback()">Back</button>
+            &nbsp;
+            <button class="btn btn-secondary" (click)="gohome()">Home</button>
+            &nbsp;
+            <button class="btn btn-primary" (click)="viewCart()">Go To Cart</button>
+            <hr> -->
+        </ng-template>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <span class="h1 col-md-5 col-5">{{restaurantData.name}}</span>
+                    <select name="food-sort" id="food-sort" class="col-md-3 col-4 food-sort-select" (change)="sortFoods(foodSortBy)" [(ngModel)]="foodSortBy">
+                        <option [value]="'NONE'" disabled selected>Sort By</option>
+                        <option [value]="'NONE'">None</option>
+                        <option [value]="'PASC'">Price: Low to High</option>
+                        <option [value]="'PDES'">Price: High to Low</option>
+                        <option [value]="'CDES'" [disabled]="!restaurantSameAsCart">Items in Cart: High to Low</option>
+                        <option [value]="'CASC'" [disabled]="!restaurantSameAsCart">Items in Cart: Low to High</option>
+                        <option [value]="'TASC'">Type: Ascending</option>
+                        <option [value]="'TDES'">Type: Descending</option>
+                    </select>
+                    <span class="col-md-1 col-1"></span>
+                    <button class="col-md-3 col-2 btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#filterModal">
+                        Filters
+                        <span class="badge bg-danger" *ngIf="numberOfFiltersApplied">{{numberOfFiltersApplied}}</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div *ngIf="foods.length === 0">
+                    <div class="alert alert-danger" *ngIf="isFoodLoaded; else food_not_loaded_yet">
+                        <h3>No food available currently</h3>
+                    </div>
+                    <ng-template #food_not_loaded_yet>
+                        <app-loading-bar [alertType]="'secondary'"></app-loading-bar>
+                    </ng-template>
+                </div>
+                <div *ngIf="foods.length > 0 && foodsFiltered.length === 0">
+                    <div class="alert alert-danger">
+                        <h3>No food available for the selected type</h3>
+                    </div>
+                </div>
+                <div *ngFor="let food of foodsFiltered">
+                    <div class="container">
+                        <div class="row alert alert-secondary">
+                            <span class="col-md-2 col-sm-2">
+                                <img class="food-image" [src]="categoryImageLocation + food.type + '.webp'" [alt]="food.type">
+                            </span>
+                            <span class="col-md-1 col-sm-1"></span>
+                            <span class="col-md-8 col-sm-8">
+                                <strong>Title: </strong> <span class="food-details">{{food.title}}</span> <br>
+                                <strong>Description: </strong> <span class="food-details">{{food.description}}</span> <br>
+                                <strong>Price: </strong> <span class="food-details">₹{{food.price}}</span> <br>
+                                <!-- <strong>Rating: </strong> <span class="food-details">4.3★ (19 Ratings)</span> <br> -->
+                                <br>
+                                <strong>Add to Cart:</strong><br>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <button class="btn btn-sm btn-danger" 
+                                        [disabled]="cartItems[food.id]<=0" 
+                                        (click)="reduceFromCart(food.id)"
+                                    >-</button>
+                                    <input type="number" 
+                                        [min]="foodMinimumLimit" 
+                                        [max]="foodMaximumLimit" 
+                                        [disabled]="!restaurantSameAsCart" 
+                                        [(ngModel)]="cartItems[food.id]" 
+                                        class="cart-item-value" 
+                                        (change)="updateAndCheckCartItems()"
+                                    >
+                                    <button class="btn btn-sm btn-success" 
+                                        [disabled]="!restaurantSameAsCart || cartItems[food.id] >= foodMaximumLimit" 
+                                        (click)="increaseFromCart(food.id)"
+                                    >+</button>
+                                </div>
+                                &nbsp;
+                                <button class="btn btn-sm btn-danger" 
+                                    [disabled]="cartItems[food.id]<=0" 
+                                    (click)="deleteFromCart(food.id)"
+                                >Remove</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!restaurantExists">
+    <app-invalid-route></app-invalid-route>
+</div>
+
+<div class="checkout-button-container">
+    <span class="">
+        <button class="btn btn-success btn-block checkout-button" 
+            *ngIf="restaurantSameAsCart && doCartHasItems()"
+            (click)="viewCart()"
+        >
+            Checkout
+            <br>
+            ₹{{calculateTotalBill()}}
+        </button>
+    </span>
+</div>
+
+<div class="modal fade" id="filterModal" #FilterModal tabindex="-1" aria-labelledby="filterModalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div class="modal-header">
+                    <h3 id="filterModalHeader">Filters</h3>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div><strong>Food Type:</strong></div>
+                    <div class="row">
+                        <span *ngFor="let type of foodCategories; index as idx" class="col-md-6 col-sm-6 col-6">
+                            <input class="form-check-input" type="checkbox" [value]="type.type" [id]="'type-filter-' + idx"
+                                [disabled]="foodTypeFiltersDisabled[idx]"
+                                [(ngModel)]="foodTypeFiltersSelected[idx]">
+                            &nbsp;
+                            <label class="form-check-label" [for]="'type-filter-' + idx">
+                                {{type.name}}
+                            </label>
+                        </span>
+                    </div>
+                    <hr>
+                    <div><strong>Price Range:</strong></div>
+                    <div class="row">
+                        <span *ngFor="let range of foodPriceRange; index as idx" class="col-md-6 col-sm-6 col-6">
+                            <span>
+                                <input class="form-check-input" type="radio" [value]="idx" [(ngModel)]="foodPriceRangeSelected"
+                                    name="foodPriceRange" [id]="'food-price-range-' + idx">
+                                &nbsp;
+                                <label class="form-check-label" [for]="'food-price-range-' + idx">
+                                    <span *ngIf="idx !== 0; else no_price_range_selected">
+                                        <span *ngIf="range.from >= 1; else price_range_with_no_lower_bound">
+                                            ₹{{range.from}} - ₹{{range.to}}
+                                        </span>
+                                        <ng-template #price_range_with_no_lower_bound>
+                                            less than ₹{{range.to}}
+                                        </ng-template>
+                                    </span>
+                                    <ng-template #no_price_range_selected>
+                                        Any
+                                    </ng-template>
+                                </label>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row container">
+                        <button class="btn btn-danger col-md-4 col-sm-4 col-5" (click)="clearfilter()">Clear Filters</button>
+                        <span class="col-md-1 col-sm-1 col-2"></span>
+                        <button class="btn btn-success col-md-4 col-sm-4 col-5" (click)="applyfilter()" data-bs-dismiss="modal" aria-label="Close">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

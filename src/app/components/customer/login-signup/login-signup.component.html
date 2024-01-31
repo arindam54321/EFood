@@ -1,0 +1,173 @@
+<br>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="button-container">
+                <div class="btn-group btn-group-toggle login-signup-button" data-toggle="buttons">
+                    <button [ngClass]="loginButtonClass" (click)="loginbuttonselected()">Login</button>
+                    <button [ngClass]="signupButtonClass" (click)="signupbuttonselected()">Sign Up</button>
+                </div>
+            </div>
+            <br>
+            <div *ngIf="inLoginMode; else in_sign_up_mode" class="container">
+                <div class="form-group" [formGroup]="form">
+                    <label for="customerEmail">Enter Email</label>
+                    <input type="email" name="customerEmail" id="customerEmail" class="form-control"
+                        formControlName="email">
+                    <div *ngIf="form.get('email')?.dirty && form.get('email')?.errors">
+                        <small class="text-danger">
+                            *Enter a valid mail
+                        </small>
+                    </div>
+                    <div *ngIf="!doesCustomerExists">
+                        <small class="text-danger">
+                            {{customerErrorMessage}}
+                        </small>
+                    </div>
+                    <div *ngIf="!userExists">
+                        <br>
+                        <button class="btn btn-primary intro-button" [disabled]="otpButtonDisabled || form.get('email')?.errors"
+                            (click)="login()">
+                            Generate OTP
+                            <span *ngIf="otpButtonDisabled">
+                                (<span *ngIf="cooldownMinutes > 0">{{cooldownMinutes}}m</span>
+                                <span *ngIf="cooldownMinutes > 0 && cooldownSeconds > 0">&nbsp;</span>
+                                <span *ngIf="cooldownSeconds > 0">{{cooldownSeconds}}s</span>)
+                            </span>
+                        </button>
+                    </div>
+                    <div *ngIf="userExists">
+                        <br>
+                        <label for="otp">Enter OTP</label>
+                        <input type="number" name="otp" id="otp" class="form-control" formControlName="otp">
+                        <br>
+                        <div *ngIf="form.get('otp')?.dirty && form.get('otp')?.errors">
+                            <small class="text-danger">
+                                *OTP should be 6 digit long
+                            </small>
+                            <br>
+                            <br>
+                        </div>
+                        <div *ngIf="otpErrorMessage">
+                            <small class="text-danger">*{{otpErrorMessage}}</small>
+                            <br>
+                            <br>
+                        </div>
+                        <button class="btn btn-success intro-button" (click)="validateOtp()" [disabled]="!form.valid">
+                            Validate
+                        </button>
+                        &nbsp;
+                        <button class="btn btn-danger intro-button" [disabled]="otpButtonDisabled || form.get('email')?.errors"
+                            (click)="login()">
+                            Resend OTP
+                            <span *ngIf="otpButtonDisabled">
+                                (<span *ngIf="cooldownMinutes > 0">{{cooldownMinutes}}m</span>
+                                <span *ngIf="cooldownMinutes > 0 && cooldownSeconds > 0">&nbsp;</span>
+                                <span *ngIf="cooldownSeconds > 0">{{cooldownSeconds}}s</span>)
+                            </span>
+                        </button>
+                    </div>
+                    <button class="btn btn-success intro-button" (click)="loginasguestconfirmation()">
+                        Login as Guest
+                    </button>
+                </div>
+            </div>
+            <ng-template #in_sign_up_mode>
+                <div class="container">
+                    <div class="card-body" [formGroup]="formSignUp">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" formControlName="email" id="email" class="form-control">
+                            <small class="text-danger" *ngIf="formSignUp.get('email')?.dirty && formSignUp.get('email')?.errors">Enter a valid
+                                email</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" formControlName="firstName" id="firstName" class="form-control">
+                            <small class="text-danger" *ngIf="formSignUp.get('firstName')?.dirty && formSignUp.get('firstName')?.errors">First Name
+                                should be atleast 3 characters long</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" formControlName="lastName" id="lastName" class="form-control">
+                            <small class="text-danger" *ngIf="formSignUp.get('lastName')?.dirty && formSignUp.get('lastName')?.errors">Last Name should
+                                be
+                                atleast 3 characters long</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number</label>
+                            <input type="number" formControlName="mobile" id="mobile" class="form-control">
+                            <small class="text-danger" *ngIf="formSignUp.get('mobile')?.dirty && formSignUp.get('mobile')?.errors">Not a valid Mobile
+                                Number</small>
+                        </div>
+                        <br>
+                        <button class="btn btn-success" (click)="signIn()" [disabled]="!formSignUp.valid" data-bs-toggle="modal"
+                            data-bs-target="#otpModal">Submit</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="otpModal" #OtpModal tabindex="-1" aria-labelledby="otpModalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div *ngIf="!otpValidated">
+                <div class="modal-header">
+                    <h1 id="otpModalHeader">OTP Sent to Email</h1>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="otp">Enter OTP</label>
+                    <input type="number" name="otp" id="otp" class="form-control" [(ngModel)]="otp">
+                    <br>
+                    <div *ngIf="otpErrorMessage">
+                        <small class="text-danger">*{{otpErrorMessage}}</small>
+                        <br>
+                        <br>
+                    </div>
+                    <button class="btn btn-primary" (click)="validateOtpForSignUp()">
+                        Validate
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-danger" [disabled]="otpButtonDisabled" (click)="signIn()">
+                        Resend OTP
+                        <span *ngIf="otpButtonDisabled">
+                            (<span *ngIf="cooldownMinutes > 0">{{cooldownMinutes}}m</span>
+                            <span *ngIf="cooldownMinutes > 0 && cooldownSeconds > 0">&nbsp;</span>
+                            <span *ngIf="cooldownSeconds > 0">{{cooldownSeconds}}s</span>)
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="otpValidated && userExists">
+                <div class="modal-header">
+                    <h1 id="otpModalHeader">Accout already Exists</h1>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Account already exists for this email id. You can login instead.
+                    </div>
+                    <br>
+                    <button class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+            </div>
+            <div *ngIf="otpValidated && !userExists">
+                <div class="modal-header alert alert-success">
+                    <h1 id="otpModalHeader">Accout Created</h1>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        Your account has been created.
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" (click)="gohome()" data-bs-dismiss="modal" aria-label="Close">Go
+                        Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
