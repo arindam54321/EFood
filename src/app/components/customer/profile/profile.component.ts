@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerServiceService } from 'src/app/services/customer-service.service';
+import { EmailAvatar } from 'src/shared/emailAvatar';
 import { LocalStorageKeys } from 'src/shared/localStorageKeys';
 import { LoginCheck } from 'src/shared/login-check';
 import Swal from 'sweetalert2';
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit {
 
   userDetails: any = {}
   form!: FormGroup
+  avatarUrl: string | null = null
 
   constructor(
     private router: Router,
@@ -47,6 +49,7 @@ export class ProfileComponent implements OnInit {
         localStorage.setItem(LocalStorageKeys.loggedInCustomer, JSON.stringify(this.userDetails))
         localStorage.setItem(LocalStorageKeys.jwt, success.headers[0])
         this.initiateForm()
+        this.avatarUrl = EmailAvatar.getGravatarUrl(customerData.email)
       }
     )
   }

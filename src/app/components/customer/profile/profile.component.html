@@ -4,7 +4,10 @@
     <div class="card container">
         <div class="row text-center">
             <span class="">
-                <img src="../../../assets/images/icons/user.png" alt="USER" class="user-image">
+                <img src="../../../assets/images/icons/user.png" alt="USER" class="user-image" *ngIf="true; else avatar_found">
+                <ng-template #avatar_found>
+                <img [src]="avatarUrl" alt="USER" class="user-image">
+                </ng-template>
             </span>
             <span class="">
                 <h4 class="heading-items">{{userDetails.firstName + ' ' + userDetails.lastName}}</h4>

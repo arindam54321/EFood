@@ -4,7 +4,7 @@ import { Router } from "@angular/router"
 import * as jwt from 'jsonwebtoken'
 
 export class LoginCheck {
-    static loginCheck = (router: Router) => {
+    public static loginCheck = (router: Router) => {
         if (!this.isAnyoneLoggedIn()) {
             router.navigate(['intro'])
         } else if (this.isTokenExpired()) {
@@ -15,11 +15,11 @@ export class LoginCheck {
         }
     }
 
-    static isAnyoneLoggedIn = (): boolean => {
+    private static isAnyoneLoggedIn = (): boolean => {
         return localStorage.getItem(LocalStorageKeys.loggedInCustomer) !== null
     }
 
-    static isTokenExpired = (): boolean => {
+    private static isTokenExpired = (): boolean => {
         // let token = localStorage.getItem(LocalStorageKeys.jwt) + ''
         // try {
         //     const { exp } = jwt.decode(token) as {

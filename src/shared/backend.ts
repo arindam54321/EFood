@@ -1,16 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export class Backend {
   static localport: number = 10000
   static localhost: string = `http://localhost:${Backend.localport}`
 
   static customport: number = 10000
-  static customhost: string = `http://192.168.1.8:${Backend.customport}`
+  static customhost: string = `http://0.0.0.0:${Backend.customport}`
 
   static cloudhost: string = `https://hungry-hub-arindam.onrender.com`
 
-  static hostname: string = Backend.cloudhost
+  static hostname: string = environment.production 
+                          ? this.cloudhost
+                          : this.localhost
 
   public static handleError(error: HttpErrorResponse) {
     console.log(error)

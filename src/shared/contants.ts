@@ -5,7 +5,8 @@ export class Constants {
         { type: 'BURGER', name: 'Burger', src1: 'BURGER.webp', src2: 'Burger.webp' },
         { type: 'CHINESE', name: 'Chinese', src1: 'CHINESE.webp', src2: 'Chinese.webp' },
         { type: 'MOMOS', name: 'Momos', src1: 'MOMOS.webp', src2: 'Momos.webp' },
-        { type: 'PIZZA', name: 'Pizza', src1: 'PIZZA.webp', src2: 'Pizza.webp' }
+        { type: 'PIZZA', name: 'Pizza', src1: 'PIZZA.webp', src2: 'Pizza.webp' },
+        { type: 'ICECREAM', name: 'Ice Cream', src1: 'ICECREAM.webp', src2: 'Icecream.webp' }
     ]
     public static foodPriceRange: any[] = [
         { from: 0, to: 0},
@@ -16,4 +17,5 @@ export class Constants {
         { from: 0, to: 1000 }
     ]
     public static selectedLocationNotSelected = 'No Location Selected'
+    public static guestEmail = 'guest@email.com'
 }

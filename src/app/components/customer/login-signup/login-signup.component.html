@@ -26,7 +26,7 @@
                     </div>
                     <div *ngIf="!userExists">
                         <br>
-                        <button class="btn btn-primary" [disabled]="otpButtonDisabled || form.get('email')?.errors"
+                        <button class="btn btn-primary intro-button" [disabled]="otpButtonDisabled || form.get('email')?.errors"
                             (click)="login()">
                             Generate OTP
                             <span *ngIf="otpButtonDisabled">
@@ -53,11 +53,11 @@
                             <br>
                             <br>
                         </div>
-                        <button class="btn btn-success" (click)="validateOtp()" [disabled]="!form.valid">
+                        <button class="btn btn-success intro-button" (click)="validateOtp()" [disabled]="!form.valid">
                             Validate
                         </button>
                         &nbsp;
-                        <button class="btn btn-danger" [disabled]="otpButtonDisabled || form.get('email')?.errors"
+                        <button class="btn btn-danger intro-button" [disabled]="otpButtonDisabled || form.get('email')?.errors"
                             (click)="login()">
                             Resend OTP
                             <span *ngIf="otpButtonDisabled">
@@ -67,6 +67,9 @@
                             </span>
                         </button>
                     </div>
+                    <button class="btn btn-success intro-button" (click)="loginasguestconfirmation()">
+                        Login as Guest
+                    </button>
                 </div>
             </div>
             <ng-template #in_sign_up_mode>
